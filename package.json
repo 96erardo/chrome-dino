@@ -1,0 +1,14 @@
+{
+  "name": "chrome-trex-game",
+  "version": "0.0.1",
+  "description": "Game of a T-Rex dinosaur that jumps and avoids obstacles",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "game"
+  ],
+  "author": "Gerardo Garcia Lopez",
+  "license": "ISC"
+}
