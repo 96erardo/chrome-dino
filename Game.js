@@ -2,14 +2,19 @@ class GameState {
   constructor (
     status, 
     player, 
-    obstacles,
+    spawner,
   ) {
     this.status = status;
     this.player = player;
-    this.obstacles = obstacles;
+    this.spawner = spawner;
   };
 
   update (dt, keys) {
-    return this.player.update(dt, this, keys);
+    let state;
+
+    state = this.spawner.update(dt, this, keys);
+    state = this.player.update(dt, state, keys);
+
+    return state;
   }
 }
