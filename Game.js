@@ -4,7 +4,7 @@ class GameState {
     player, 
     spawner,
   ) {
-    this.status = status;
+    this.status = status; // stop - playing - over
     this.player = player;
     this.spawner = spawner;
   };

@@ -1,11 +1,11 @@
-const fps = 120;
+let display = new Display('canvas');
+let keys = new Set();
 let lastTime = 0;
-
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+let passed = 0;
+let i = 0;
 
 let game = new GameState(
-  "stop", 
+  "stop",
   new Player(50,200), 
   new Spawner(
     3,
@@ -18,21 +18,42 @@ let game = new GameState(
     []
   )
 );
-let display = new Display();
-let keys = new Set();
-let passed = 0;
-let i = 0;
 
 document.addEventListener('keydown', (event) => {
   keys.add(event.key)
 })
 
 document.addEventListener('keyup', (event) => {
-  keys.delete(event.key)
+  if (game.status === "stop" || game.status === "over") {
+    if (event.code === "Space") {
+      game = new GameState(
+        "playing",
+        new Player(50,200), 
+        new Spawner(
+          3,
+          300,
+          [
+            new Obstacle(800, 428, 20, 20),
+            new Obstacle(800, 388, 20, 60)
+          ],
+          null,
+          []
+        )
+      )
+
+      lastTime = 0
+
+      requestAnimationFrame(run);
+    }
+    
+
+  } else {
+    keys.delete(event.key)
+  }
 })
 
 function run (time) {
-  const delta = (time - lastTime) / 1000; // Convert the time passed to seconds
+  const delta = lastTime ? (time - lastTime) / 1000 : 0; // Convert the time passed to seconds
   lastTime = time;
 
   passed += delta;
@@ -40,18 +61,10 @@ function run (time) {
 
   game = game.update(delta, keys)
 
-  display.draw(ctx, game)
+  display.draw(game)
 
-  if (i === fps && passed < 1) {
-    setTimeout(() => {
-      console.log('frames per second', i, 'in', passed)
-      passed = 0;
-      i = 0;
-      requestAnimationFrame(run)
-    }, (1 - passed) * 1000);
-
-  } else {
-    requestAnimationFrame(run)
+  if (game.status === "playing") {
+    requestAnimationFrame(run)    
   }
 }
 

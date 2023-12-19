@@ -20,7 +20,7 @@ class Spawner {
 
     if (onScreenObstacles.length === this.max) {
       return new GameState(
-        "stop",
+        state.status,
         state.player,
         new Spawner (
           this.max,
@@ -42,7 +42,7 @@ class Spawner {
       }
 
       return new GameState(
-        "stop",
+        state.status,
         state.player,
         new Spawner(
           this.max,

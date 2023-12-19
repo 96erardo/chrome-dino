@@ -1,79 +1,41 @@
 const dinosaur = new Image()
 dinosaur.src = './src/assets/img/dinosaur.png'
 
-const sprite = {
-  0: {
-    x: 6,
-    y: 4,
-    width: 88,
-    height: 90,
-  },
-  1: {
-    x: 102,
-    y: 0,
-    width: 88,
-    height: 94,
-  },
-  2: {
-    x: 198,
-    y: 0,
-    width: 88,
-    height: 94,
-  },
-  3: {
-    x: 294,
-    y: 0,
-    width: 88,
-    height: 94,
-  },
-  4: {
-    x: 390,
-    y: 0,
-    width: 88,
-    height: 94,
-  },
-}
-
 class Display {
-  draw (ctx, state) {
-    ctx.fillStyle = 'rgb(247,247,247)';
-    ctx.fillRect(0, 0, 800, 480);
+  constructor (elementId) {
+    this.canvas = document.getElementById(elementId);
+    this.ctx = canvas.getContext('2d');
+  }
 
-    ctx.lineWidth = 4;
-    ctx.moveTo(0, 450);
-    ctx.lineTo(800, 450);
-    ctx.stroke();
+  draw (state) {
+    this.ctx.fillStyle = 'rgb(247,247,247)';
+    this.ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    this.ctx.lineWidth = 4;
+    this.ctx.moveTo(0, GAME_BASELINE_POSITION);
+    this.ctx.lineTo(CANVAS_WIDTH, GAME_BASELINE_POSITION);
+    this.ctx.stroke();
 
     // Player
-    this.drawPlayer(state.player)
+    state.player.draw(this.ctx)
     // Obstacles
-    this.drawObstacles(state.spawner.onScreenObstacles);
-  }
+    state.spawner.onScreenObstacles.forEach(o => o.draw(this.ctx))
 
-  drawPlayer (player) {
-    let tile;
+    if (state.status === "over") {
+      this.ctx.save()
 
-    if ((player.y + player.height) < 448) {
-      tile = sprite[1]
-    } else {
-      tile = sprite[(Math.floor(Date.now() / 150) % 2) + 3];
-    }    
-    
-    ctx.save()
-    
-    ctx.drawImage(dinosaur, tile.x, tile.y, tile.width, tile.height, player.x, player.y, tile.width, tile.height)
+      this.ctx.font = '48px sans-serif';
+      this.ctx.fillStyle = 'black';
 
-    ctx.restore()
-  }
+      const { width } = this.ctx.measureText('GAME OVER');
 
-  drawObstacles (obstacles) {    
-    for (const ob of obstacles) {
-      ctx.save()
+      this.ctx.fillText(
+        "GAME OVER", 
+        (CANVAS_WIDTH / 2) - (width / 2), 
+        (CANVAS_HEIGHT / 2) - (48 / 2)
+      )
 
-      ctx.fillStyle = 'black';
-      ctx.fillRect(ob.x, ob.y, ob.width, ob.height)
-
-      ctx.restore()
+      this.ctx.restore()
     }
   }
 }

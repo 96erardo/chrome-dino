@@ -18,7 +18,15 @@ class Obstacle {
       x -= dt * this.xSpeed;
     }
 
-
     return new Obstacle(x, y, this.width, this.height);
+  }
+
+  draw (ctx) {
+    ctx.save()
+
+    ctx.fillStyle = 'black';
+    ctx.fillRect(this.x, this.y, this.width, this.height)
+
+    ctx.restore()
   }
 }
