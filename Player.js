@@ -11,6 +11,36 @@ class Player {
     this.ySpeed = ySpeed;
   }
 
+  static async load () {
+    const img = elt('img', { src: './src/assets/img/dinosaur.png' })
+
+    await new Promise ((res) => {
+      function onLoad () {
+        Player.prototype.display = {
+          jumping: [
+            new Sprite(102, 0, 88, 90, img),
+          ],
+          running: [
+            new Sprite(294, 0, 88, 94, img),
+            new Sprite(390, 0, 88, 94, img),
+          ],
+          down: [
+            new Sprite(678, 34, 118, 60, img),
+            new Sprite(804, 34, 118, 60, img),
+          ],
+          lost: [
+            new Sprite(486, 0, 88, 94, img),
+          ],
+        }
+
+        img.removeEventListener('load', onLoad);
+        res()
+      }
+
+      img.addEventListener('load', onLoad)
+    })
+  }
+
   update (dt, state, keys) {
     let x = this.x;
     let y = this.y;
@@ -64,25 +94,8 @@ class Player {
     
     ctx.fillStyle = 'rgba(31, 240, 77, .4)';
     ctx.fillRect(this.x, this.y, this.width, this.height)
-    ctx.drawImage(dinosaur, tile.x, tile.y, tile.width, tile.height, this.x, this.y, this.width, this.height)
+    ctx.drawImage(this.sprite[0].image, tile.x, tile.y, tile.width, tile.height, this.x, this.y, this.width, this.height)
 
     ctx.restore()
   }
-}
-
-Player.prototype.display = {
-  jumping: [
-    new Sprite(102, 0, 88, 90, dinosaur),
-  ],
-  running: [
-    new Sprite(294, 0, 88, 94, dinosaur),
-    new Sprite(390, 0, 88, 94, dinosaur),
-  ],
-  down: [
-    new Sprite(678, 34, 118, 60, dinosaur),
-    new Sprite(804, 34, 118, 60, dinosaur),
-  ],
-  lost: [
-    new Sprite(486, 0, 88, 94, dinosaur),
-  ],
 }

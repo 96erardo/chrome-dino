@@ -8,6 +8,16 @@ const GAME_BASELINE_POSITION = 450;
 
 const GAME_BASELINE_UPPER_LIMIT = GAME_BASELINE_POSITION - (GAME_BASELINE_THICKNESS / 2);
 
+function elt(name, attrs) {
+  let dom = document.createElement(name);
+
+  for (let attr of Object.keys(attrs)) {
+    dom.setAttribute(attr, attrs[attr]);
+  }
+
+  return dom;
+}
+
 function rect_rect_collision (A, B) {
   if (
     (A.x < (B.x + B.width)) &&
@@ -34,7 +44,11 @@ function pixel_perfect_collision (player, obstacle) {
         Math.ceil(x - player.x), 
         Math.ceil(y - player.y)
       );
-      const b = true;
+
+      const b = obstacle.sprite.isPointFilled(
+        Math.ceil(x - obstacle.x), 
+        Math.ceil(y - obstacle.y)
+      );
 
       if (a && b) {
         return true;

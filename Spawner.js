@@ -35,7 +35,7 @@ class Spawner {
       const { [this.onScreenObstacles.length - 1]: last } = this.onScreenObstacles;
 
       if (last === undefined || (800 - (last.x + last.width) > this.distance)) {
-        const next = this.obstacles[Math.round(Math.random())];
+        const next = this.obstacles[Math.round(Math.random() * (this.obstacles.length - 1))];
 
         this.lastObstacle = next;
         onScreenObstacles.push(next)

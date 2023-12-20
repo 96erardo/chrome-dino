@@ -3,21 +3,7 @@ let keys = new Set();
 let lastTime = 0;
 let passed = 0;
 let i = 0;
-
-let game = new GameState(
-  "stop",
-  new Player(50,200), 
-  new Spawner(
-    3,
-    300,
-    [
-      new Obstacle(800, 428, 20, 20),
-      new Obstacle(800, 388, 20, 60)
-    ],
-    null,
-    []
-  )
-);
+let game;
 
 document.addEventListener('keydown', (event) => {
   keys.add(event.key)
@@ -26,27 +12,13 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keyup', (event) => {
   if (game.status === "stop" || game.status === "over") {
     if (event.code === "Space") {
-      game = new GameState(
-        "playing",
-        new Player(50,200), 
-        new Spawner(
-          3,
-          300,
-          [
-            new Obstacle(800, 428, 20, 20),
-            new Obstacle(800, 388, 20, 60)
-          ],
-          null,
-          []
-        )
-      )
 
+      game = GameState.createFromStatus("playing")
+      keys.clear();
       lastTime = 0
 
       requestAnimationFrame(run);
     }
-    
-
   } else {
     keys.delete(event.key)
   }
@@ -68,4 +40,8 @@ function run (time) {
   }
 }
 
-requestAnimationFrame(run)
+GameState.load()
+  .then(() => {
+    game = GameState.createFromStatus("stop");
+    requestAnimationFrame(run)
+  })

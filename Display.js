@@ -1,6 +1,3 @@
-const dinosaur = new Image()
-dinosaur.src = './src/assets/img/dinosaur.png'
-
 class Display {
   constructor (elementId) {
     this.canvas = document.getElementById(elementId);
