@@ -1,5 +1,23 @@
-class Player {
-  constructor (x, y, ySpeed = 0, status = "jumping") {
+import { Sprite } from '../../shared/objects/Sprite';
+import { Game, GameStatus } from '../../shared/Game';
+import { Obstacle } from './Obstacle';
+
+export class Player {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  ySpeed: number;
+  status: PlayerStatus;
+  sprite: Array<Sprite>;
+  display: Record<string, Array<Sprite>>
+
+  constructor (
+    x: number, 
+    y: number, 
+    ySpeed: number = 0, 
+    status: PlayerStatus = PlayerStatus.Jumping
+  ) {
     const { 0: { width, height } } = this.display[status]
 
     this.x = x;
@@ -34,14 +52,14 @@ class Player {
         }
 
         img.removeEventListener('load', onLoad);
-        res()
+        res('done')
       }
 
       img.addEventListener('load', onLoad)
     })
   }
 
-  update (dt, state, keys) {
+  update (dt: number, state: Game, keys: Set<string>) {
     let x = this.x;
     let y = this.y;
     let ySpeed = this.ySpeed;
@@ -51,7 +69,7 @@ class Player {
       ySpeed += dt * 2200;
 
     } else {
-      status = "running";
+      status = PlayerStatus.Running;
       ySpeed = 0
     }
     
@@ -61,7 +79,7 @@ class Player {
     }
 
     if ((y + this.height) === GAME_BASELINE_UPPER_LIMIT && keys.has('ArrowUp')) {
-      status = "jumping";
+      status = PlayerStatus.Jumping;
       ySpeed += -800;
     }
 
@@ -70,24 +88,24 @@ class Player {
         y = GAME_BASELINE_UPPER_LIMIT - 60;
       }
 
-      status = "down"
+      status = PlayerStatus.Down;
     }
 
     y = y + dt * ySpeed;
 
     if (
-      state.spawner.onScreenObstacles.some(o => rect_rect_collision(
+      state.spawner.onScreenObstacles.some((o: Obstacle) => rect_rect_collision(
         new Player(x, y, ySpeed, status),
         o
       ))
     ) {
-      return new GameState("over", new Player(x, y, ySpeed, "lost"), state.spawner);
+      return new Game(GameStatus.Over, new Player(x, y, ySpeed, PlayerStatus.Lost), state.spawner);
     }
 
-    return new GameState(state.status, new Player(x, y, ySpeed, status), state.spawner);
+    return new Game(state.status, new Player(x, y, ySpeed, status), state.spawner);
   }
 
-  draw (ctx) {
+  draw (ctx: CanvasRenderingContext2D) {
     let tile = this.sprite[(Math.floor(Date.now() / 150) % this.sprite.length)];
     
     ctx.save()
@@ -98,4 +116,11 @@ class Player {
 
     ctx.restore()
   }
+}
+
+export enum PlayerStatus {
+  Jumping = "jumping",
+  Running = "running",
+  Down = "down",
+  Lost = "lost"
 }

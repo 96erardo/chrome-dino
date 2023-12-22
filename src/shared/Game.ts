@@ -1,8 +1,16 @@
-class GameState {
+import { Player } from '../modules/objects/Player';
+import { Obstacle } from '../modules/objects/Obstacle';
+import { Spawner } from '../modules/objects/Spawner';
+
+export class Game {
+  status: GameStatus;
+  player: Player;
+  spawner: Spawner;
+
   constructor (
-    status, 
-    player, 
-    spawner,
+    status: GameStatus,
+    player: Player,
+    spawner: Spawner,
   ) {
     this.status = status; // stop - playing - over
     this.player = player;
@@ -16,8 +24,8 @@ class GameState {
     ])
   }
 
-  static createFromStatus (status) {
-    return new GameState(
+  static createFromStatus (status: GameStatus) {
+    return new Game(
       status,
       new Player(50,200), 
       new Spawner(
@@ -37,7 +45,7 @@ class GameState {
     )
   }
 
-  update (dt, keys) {
+  update (dt: number, keys: Set<string>) {
     let state;
 
     state = this.spawner.update(dt, this, keys);
@@ -45,4 +53,10 @@ class GameState {
 
     return state;
   }
+}
+
+export enum GameStatus {
+  Stop = "stop",
+  Playing = "playing",
+  Over = "over",
 }

@@ -1,10 +1,16 @@
-class Display {
-  constructor (elementId) {
-    this.canvas = document.getElementById(elementId);
-    this.ctx = canvas.getContext('2d');
+import { Game } from './Game';
+import { Obstacle } from '../modules/objects/Obstacle';
+
+export default class Display {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+
+  constructor (elementId: string) {
+    this.canvas = document.getElementById(elementId) as HTMLCanvasElement;
+    this.ctx = this.canvas.getContext('2d');
   }
 
-  draw (state) {
+  draw (state: Game) {
     this.ctx.fillStyle = 'rgb(247,247,247)';
     this.ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -16,13 +22,14 @@ class Display {
     // Player
     state.player.draw(this.ctx)
     // Obstacles
-    state.spawner.onScreenObstacles.forEach(o => o.draw(this.ctx))
+    state.spawner.onScreenObstacles.forEach((o: Obstacle) => o.draw(this.ctx))
 
     if (state.status === "over") {
       this.ctx.save()
 
       this.ctx.font = '48px sans-serif';
       this.ctx.fillStyle = 'black';
+      
 
       const { width } = this.ctx.measureText('GAME OVER');
 

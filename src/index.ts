@@ -1,9 +1,12 @@
-let display = new Display('canvas');
-let keys = new Set();
+import Display from "./shared/Display";
+import { Game, GameStatus } from "./shared/Game";
+
+const display = new Display('canvas');
+let keys = new Set<string>();
 let lastTime = 0;
 let passed = 0;
 let i = 0;
-let game;
+let game: Game;
 
 document.addEventListener('keydown', (event) => {
   keys.add(event.key)
@@ -13,7 +16,7 @@ document.addEventListener('keyup', (event) => {
   if (game.status === "stop" || game.status === "over") {
     if (event.code === "Space") {
 
-      game = GameState.createFromStatus("playing")
+      game = Game.createFromStatus(GameStatus.Playing)
       keys.clear();
       lastTime = 0
 
@@ -24,7 +27,7 @@ document.addEventListener('keyup', (event) => {
   }
 })
 
-function run (time) {
+function run (time: DOMHighResTimeStamp) {
   const delta = lastTime ? (time - lastTime) / 1000 : 0; // Convert the time passed to seconds
   lastTime = time;
 
@@ -40,8 +43,8 @@ function run (time) {
   }
 }
 
-GameState.load()
+Game.load()
   .then(() => {
-    game = GameState.createFromStatus("stop");
+    game = Game.createFromStatus(GameStatus.Stop);
     requestAnimationFrame(run)
   })

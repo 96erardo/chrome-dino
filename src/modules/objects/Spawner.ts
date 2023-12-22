@@ -1,10 +1,19 @@
-class Spawner {
+import { Obstacle } from './Obstacle';
+import { Game } from '../../shared/Game';
+
+export class Spawner {
+  max: number;
+  distance: number;
+  obstacles: Array<Obstacle>;
+  lastObstacle: Obstacle;
+  onScreenObstacles: Array<Obstacle>;
+
   constructor (
-    max,
-    distance,
-    obstacles,
-    lastObstacle,
-    onScreenObstacles,
+    max: number,
+    distance: number,
+    obstacles: Array<Obstacle>,
+    lastObstacle: Obstacle,
+    onScreenObstacles: Array<Obstacle>,
   ) {
     this.max = max;
     this.distance = distance;
@@ -13,13 +22,13 @@ class Spawner {
     this.onScreenObstacles = onScreenObstacles;
   }
 
-  update (dt, state, keys) {
+  update (dt: number, state: Game, keys: Set<string>) {
     const onScreenObstacles = state.spawner.onScreenObstacles
-      .map(o => o.update(dt))
-      .filter(o => (o.x + o.width) > 0)
+      .map((o: Obstacle) => o.update(dt))
+      .filter((o: Obstacle) => (o.x + o.width) > 0)
 
     if (onScreenObstacles.length === this.max) {
-      return new GameState(
+      return new Game(
         state.status,
         state.player,
         new Spawner (
@@ -41,7 +50,7 @@ class Spawner {
         onScreenObstacles.push(next)
       }
 
-      return new GameState(
+      return new Game(
         state.status,
         state.player,
         new Spawner(
@@ -53,14 +62,5 @@ class Spawner {
         )
       )
     }
-  }
-
-  static create (max, distance, obstacles, lastObstacle) {
-    return new Spawner(
-      max,
-      distance,
-      obstacles,
-      lastObstacle,
-    )
   }
 }

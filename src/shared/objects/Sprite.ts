@@ -1,5 +1,18 @@
-class Sprite {
-  constructor (x, y, width, height, image) {
+export class Sprite {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  image: HTMLImageElement;
+  bitmask: Array<boolean>;
+
+  constructor (
+    x: number, 
+    y: number, 
+    width: number, 
+    height: number, 
+    image: HTMLImageElement
+  ) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -24,7 +37,7 @@ class Sprite {
     }
   }
 
-  isPointFilled (x, y) {
+  isPointFilled (x: number, y: number) {
     return this.bitmask[x + (y * this.width)];
   }
 }

@@ -1,5 +1,17 @@
-class Obstacle {
-  constructor (x, y, type = "sm-1") {
+import { Sprite } from "../../shared/objects/Sprite";
+
+export class Obstacle {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  xSpeed: number;
+  sprite: Sprite;
+  type: ObstacleType;
+
+  display: Record<string, Sprite>;
+
+  constructor (x: number, y: number, type: ObstacleType = "sm-1") {
     this.type = type;
     this.sprite = this.display[type]
     this.width = this.sprite.width;
@@ -24,14 +36,14 @@ class Obstacle {
         }
 
         img.removeEventListener('load', onLoad);
-        res()
+        res('loaded')
       }
 
       img.addEventListener('load', onLoad)
     })
   }
 
-  update (dt) {
+  update (dt: number) {
     let x = this.x;
     let y = this.y;
 
@@ -45,7 +57,7 @@ class Obstacle {
     return new Obstacle(x, y, this.type);
   }
 
-  draw (ctx) {
+  draw (ctx: CanvasRenderingContext2D) {
     ctx.save()
 
     ctx.fillStyle = 'black';
@@ -64,3 +76,5 @@ class Obstacle {
     ctx.restore()
   }
 }
+
+type ObstacleType = 'sm-1' | 'sm-2' | 'sm-3' | 'lg-1' | 'lg-2' | 'lg-4';
