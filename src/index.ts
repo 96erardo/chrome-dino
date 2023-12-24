@@ -1,7 +1,7 @@
 import Display from "./shared/Display";
 import { Game, GameStatus } from "./shared/Game";
 
-const display = new Display('canvas');
+const display = new Display();
 let keys = new Set<string>();
 let lastTime = 0;
 let passed = 0;

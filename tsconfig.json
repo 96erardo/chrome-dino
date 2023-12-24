@@ -5,7 +5,7 @@
     "target": "ES2015",
     "noEmitOnError": true,
     "noImplicitAny": true,
-    "module": "ESNext"
+    "module": "ESNext",
   },
   "include": ["./src/**/*"]
 }

@@ -1,14 +1,17 @@
-const CANVAS_WIDTH = 800;
+import { Player } from '../modules/objects/Player';
+import { Obstacle } from '../modules/objects/Obstacle';
 
-const CANVAS_HEIGHT = 480;
+export const CANVAS_WIDTH = 800;
 
-const GAME_BASELINE_THICKNESS = 4;
+export const CANVAS_HEIGHT = 480;
 
-const GAME_BASELINE_POSITION = 450;
+export const GAME_BASELINE_THICKNESS = 4;
 
-const GAME_BASELINE_UPPER_LIMIT = GAME_BASELINE_POSITION - (GAME_BASELINE_THICKNESS / 2);
+export const GAME_BASELINE_POSITION = 450;
 
-function elt(name, attrs) {
+export const GAME_BASELINE_UPPER_LIMIT = GAME_BASELINE_POSITION - (GAME_BASELINE_THICKNESS / 2);
+
+export function elt(name: string, attrs: Record<string, string>) {
   let dom = document.createElement(name);
 
   for (let attr of Object.keys(attrs)) {
@@ -18,7 +21,7 @@ function elt(name, attrs) {
   return dom;
 }
 
-function rect_rect_collision (A, B) {
+export function rect_rect_collision (A: Player, B: Obstacle) {
   if (
     (A.x < (B.x + B.width)) &&
     (A.x + A.width > B.x) &&
@@ -31,7 +34,7 @@ function rect_rect_collision (A, B) {
   }
 }
 
-function pixel_perfect_collision (player, obstacle) {
+export function pixel_perfect_collision (player: Player, obstacle: Obstacle) {
   const x1 = Math.max(player.x, obstacle.x);
   const x2 = Math.min((player.x + player.width), (obstacle.x + obstacle.width));
   

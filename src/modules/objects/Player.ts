@@ -1,6 +1,12 @@
 import { Sprite } from '../../shared/objects/Sprite';
 import { Game, GameStatus } from '../../shared/Game';
 import { Obstacle } from './Obstacle';
+import dinosaur from '../../assets/img/dinosaur.png';
+import { 
+  elt,
+  GAME_BASELINE_UPPER_LIMIT,
+  rect_rect_collision,
+} from '../../shared/utils';
 
 export class Player {
   x: number;
@@ -30,7 +36,7 @@ export class Player {
   }
 
   static async load () {
-    const img = elt('img', { src: './src/assets/img/dinosaur.png' })
+    const img = elt('img', { src: dinosaur }) as HTMLImageElement;
 
     await new Promise ((res) => {
       function onLoad () {
@@ -109,9 +115,12 @@ export class Player {
     let tile = this.sprite[(Math.floor(Date.now() / 150) % this.sprite.length)];
     
     ctx.save()
-    
-    ctx.fillStyle = 'rgba(31, 240, 77, .4)';
-    ctx.fillRect(this.x, this.y, this.width, this.height)
+
+    if (process.env.NODE_ENV === 'development') {
+      ctx.fillStyle = 'rgba(31, 240, 77, .4)';
+      ctx.fillRect(this.x, this.y, this.width, this.height)
+    }
+
     ctx.drawImage(this.sprite[0].image, tile.x, tile.y, tile.width, tile.height, this.x, this.y, this.width, this.height)
 
     ctx.restore()

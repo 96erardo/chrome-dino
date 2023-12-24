@@ -1,4 +1,9 @@
 import { Sprite } from "../../shared/objects/Sprite";
+import cactus from '../../assets/img/cactus.png';
+import { 
+  elt,
+  GAME_BASELINE_UPPER_LIMIT
+} from '../../shared/utils';
 
 export class Obstacle {
   x: number;
@@ -22,7 +27,7 @@ export class Obstacle {
   }
 
   static async load () {
-    const img = elt('img', { src: './src/assets/img/cactus.png' })
+    const img = elt('img', { src: cactus }) as HTMLImageElement;
 
     await new Promise ((res) => {
       function onLoad () {

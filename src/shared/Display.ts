@@ -1,13 +1,23 @@
 import { Game } from './Game';
 import { Obstacle } from '../modules/objects/Obstacle';
+import { 
+  CANVAS_WIDTH, 
+  CANVAS_HEIGHT,
+  GAME_BASELINE_POSITION
+} from './utils';
 
 export default class Display {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
 
-  constructor (elementId: string) {
-    this.canvas = document.getElementById(elementId) as HTMLCanvasElement;
+  constructor () {
+    this.canvas = document.createElement('canvas') as HTMLCanvasElement;
+    this.canvas.width = CANVAS_WIDTH;
+    this.canvas.height = CANVAS_HEIGHT;
+    
     this.ctx = this.canvas.getContext('2d');
+
+    document.body.appendChild(this.canvas);
   }
 
   draw (state: Game) {
