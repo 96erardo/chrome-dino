@@ -37,7 +37,8 @@ export class Spawner {
           this.obstacles,
           this.lastObstacle,
           onScreenObstacles,
-        )
+        ),
+        state.floor,
       )
     
     } else {
@@ -59,7 +60,8 @@ export class Spawner {
           this.obstacles,
           this.lastObstacle,
           onScreenObstacles,
-        )
+        ),
+        state.floor,
       )
     }
   }

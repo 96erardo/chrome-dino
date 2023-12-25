@@ -105,10 +105,10 @@ export class Player {
         o
       ))
     ) {
-      return new Game(GameStatus.Over, new Player(x, y, ySpeed, PlayerStatus.Lost), state.spawner);
+      return new Game(GameStatus.Over, new Player(x, y, ySpeed, PlayerStatus.Lost), state.spawner, state.floor);
     }
 
-    return new Game(state.status, new Player(x, y, ySpeed, status), state.spawner);
+    return new Game(state.status, new Player(x, y, ySpeed, status), state.spawner, state.floor);
   }
 
   draw (ctx: CanvasRenderingContext2D) {
@@ -116,10 +116,10 @@ export class Player {
     
     ctx.save()
 
-    if (process.env.NODE_ENV === 'development') {
-      ctx.fillStyle = 'rgba(31, 240, 77, .4)';
-      ctx.fillRect(this.x, this.y, this.width, this.height)
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //   ctx.fillStyle = 'rgba(31, 240, 77, .4)';
+    //   ctx.fillRect(this.x, this.y, this.width, this.height)
+    // }
 
     ctx.drawImage(this.sprite[0].image, tile.x, tile.y, tile.width, tile.height, this.x, this.y, this.width, this.height)
 

@@ -1,26 +1,31 @@
 import { Player } from '../modules/objects/Player';
 import { Obstacle } from '../modules/objects/Obstacle';
 import { Spawner } from '../modules/objects/Spawner';
+import { Floor } from '../modules/objects/Floor';
 
 export class Game {
   status: GameStatus;
   player: Player;
   spawner: Spawner;
+  floor: Floor;
 
   constructor (
     status: GameStatus,
     player: Player,
     spawner: Spawner,
+    floor: Floor,
   ) {
     this.status = status; // stop - playing - over
     this.player = player;
     this.spawner = spawner;
+    this.floor = floor;
   };
 
   static async load () {
     await Promise.all([
       Player.load(),
       Obstacle.load(),
+      Floor.load(),
     ])
   }
 
@@ -41,14 +46,16 @@ export class Game {
         ],
         null,
         []
-      )
+      ),
+      new Floor(0, Floor.WIDTH)
     )
   }
 
   update (dt: number, keys: Set<string>) {
     let state;
 
-    state = this.spawner.update(dt, this, keys);
+    state = this.floor.update(dt, this, keys);
+    state = this.spawner.update(dt, state, keys);
     state = this.player.update(dt, state, keys);
 
     return state;

@@ -7,9 +7,9 @@ export const CANVAS_HEIGHT = 480;
 
 export const GAME_BASELINE_THICKNESS = 4;
 
-export const GAME_BASELINE_POSITION = 450;
+export const GAME_BASELINE_POSITION = CANVAS_HEIGHT - 34;
 
-export const GAME_BASELINE_UPPER_LIMIT = GAME_BASELINE_POSITION - (GAME_BASELINE_THICKNESS / 2);
+export const GAME_BASELINE_UPPER_LIMIT = GAME_BASELINE_POSITION + 20;
 
 export function elt(name: string, attrs: Record<string, string>) {
   let dom = document.createElement(name);

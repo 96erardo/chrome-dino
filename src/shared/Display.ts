@@ -9,6 +9,7 @@ import {
 export default class Display {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
+  floor: HTMLImageElement;
 
   constructor () {
     this.canvas = document.createElement('canvas') as HTMLCanvasElement;
@@ -23,12 +24,9 @@ export default class Display {
   draw (state: Game) {
     this.ctx.fillStyle = 'rgb(247,247,247)';
     this.ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-    this.ctx.lineWidth = 4;
-    this.ctx.moveTo(0, GAME_BASELINE_POSITION);
-    this.ctx.lineTo(CANVAS_WIDTH, GAME_BASELINE_POSITION);
-    this.ctx.stroke();
-
+    
+    // Background
+    state.floor.draw(this.ctx);
     // Player
     state.player.draw(this.ctx)
     // Obstacles

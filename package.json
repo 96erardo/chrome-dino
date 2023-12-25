@@ -14,8 +14,10 @@
   "author": "Gerardo Garcia Lopez",
   "license": "ISC",
   "devDependencies": {
+    "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.6.0",
     "source-map-loader": "^4.0.1",
+    "style-loader": "^3.3.3",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
     "webpack": "^5.89.0",

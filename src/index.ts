@@ -1,5 +1,6 @@
 import Display from "./shared/Display";
 import { Game, GameStatus } from "./shared/Game";
+import './index.css';
 
 const display = new Display();
 let keys = new Set<string>();
