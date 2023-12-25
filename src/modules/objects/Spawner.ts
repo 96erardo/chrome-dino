@@ -28,17 +28,17 @@ export class Spawner {
       .filter((o: Obstacle) => (o.x + o.width) > 0)
 
     if (onScreenObstacles.length === this.max) {
-      return new Game(
-        state.status,
-        state.player,
-        new Spawner (
-          this.max,
-          this.distance,
-          this.obstacles,
-          this.lastObstacle,
-          onScreenObstacles,
-        ),
-        state.floor,
+      return Game.from(
+        state,
+        {
+          spawner: new Spawner (
+            this.max,
+            this.distance,
+            this.obstacles,
+            this.lastObstacle,
+            onScreenObstacles,
+          )
+        }
       )
     
     } else {
@@ -51,17 +51,17 @@ export class Spawner {
         onScreenObstacles.push(next)
       }
 
-      return new Game(
-        state.status,
-        state.player,
-        new Spawner(
-          this.max,
-          this.distance,
-          this.obstacles,
-          this.lastObstacle,
-          onScreenObstacles,
-        ),
-        state.floor,
+      return Game.from(
+        state,
+        {
+          spawner: new Spawner(
+            this.max,
+            this.distance,
+            this.obstacles,
+            this.lastObstacle,
+            onScreenObstacles,
+          ),
+        }
       )
     }
   }

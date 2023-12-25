@@ -49,11 +49,11 @@ export class Floor {
       x2 = x1 + Floor.WIDTH;
     }
 
-    return new Game(
-      state.status,
-      state.player,
-      state.spawner,
-      new Floor(x1, x2)
+    return Game.from(
+      state,
+      {
+        floor: new Floor(x1, x2)
+      }
     )
   }
 

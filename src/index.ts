@@ -17,7 +17,7 @@ document.addEventListener('keyup', (event) => {
   if (game.status === "stop" || game.status === "over") {
     if (event.code === "Space") {
 
-      game = Game.createFromStatus(GameStatus.Playing)
+      game = Game.initFromStatus(GameStatus.Playing)
       keys.clear();
       lastTime = 0
 
@@ -46,6 +46,6 @@ function run (time: DOMHighResTimeStamp) {
 
 Game.load()
   .then(() => {
-    game = Game.createFromStatus(GameStatus.Stop);
+    game = Game.initFromStatus(GameStatus.Stop);
     requestAnimationFrame(run)
   })

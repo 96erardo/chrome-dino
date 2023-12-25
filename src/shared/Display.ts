@@ -27,8 +27,10 @@ export default class Display {
     
     // Background
     state.floor.draw(this.ctx);
+    // Score
+    state.score.draw(this.ctx);
     // Player
-    state.player.draw(this.ctx)
+    state.player.draw(this.ctx);
     // Obstacles
     state.spawner.onScreenObstacles.forEach((o: Obstacle) => o.draw(this.ctx))
 

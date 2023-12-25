@@ -105,21 +105,27 @@ export class Player {
         o
       ))
     ) {
-      return new Game(GameStatus.Over, new Player(x, y, ySpeed, PlayerStatus.Lost), state.spawner, state.floor);
+      return Game.from(
+        state,
+        {
+          status: GameStatus.Over,
+          player: new Player(x, y, ySpeed, PlayerStatus.Lost)
+        }
+      )
     }
 
-    return new Game(state.status, new Player(x, y, ySpeed, status), state.spawner, state.floor);
+    return Game.from(
+      state,
+      {
+        player: new Player(x, y, ySpeed, status)
+      }
+    )
   }
 
   draw (ctx: CanvasRenderingContext2D) {
     let tile = this.sprite[(Math.floor(Date.now() / 150) % this.sprite.length)];
     
     ctx.save()
-
-    // if (process.env.NODE_ENV === 'development') {
-    //   ctx.fillStyle = 'rgba(31, 240, 77, .4)';
-    //   ctx.fillRect(this.x, this.y, this.width, this.height)
-    // }
 
     ctx.drawImage(this.sprite[0].image, tile.x, tile.y, tile.width, tile.height, this.x, this.y, this.width, this.height)
 
