@@ -24,7 +24,7 @@ export class Spawner {
 
   update (dt: number, state: Game, keys: Set<string>) {
     const onScreenObstacles = state.spawner.onScreenObstacles
-      .map((o: Obstacle) => o.update(dt))
+      .map((o: Obstacle) => o.update(dt, state))
       .filter((o: Obstacle) => (o.x + o.width) > 0)
 
     if (onScreenObstacles.length === this.max) {

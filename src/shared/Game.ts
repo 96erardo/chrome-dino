@@ -12,15 +12,18 @@ export class Game {
   acc: number;
   speed: number;
   score: Score;
+  maxSpeed: number;
 
   constructor (config: GameState) {
     this.status = config.status;
     this.player = config.player;
     this.spawner = config.spawner;
     this.floor = config.floor;
-    this.acc = 20;
     this.speed = config.speed;
     this.score = config.score;
+    
+    this.acc = 20;
+    this.maxSpeed = 1000;
   };
 
   static async load () {
@@ -79,13 +82,13 @@ export class Game {
   }
 
   update (dt: number, keys: Set<string>) {
-    let state: Game = this;
+    this.speed = Math.min(this.maxSpeed, this.speed + (this.acc * dt));
 
-    state = this.score.update(dt, state, keys);
-    state = this.floor.update(dt, state, keys);
+    let state = this.floor.update(dt, this, keys);
     state = this.spawner.update(dt, state, keys);
     state = this.player.update(dt, state, keys);
-
+    state = this.score.update(dt, state, keys);
+    
     return state;
   }
 }

@@ -1,5 +1,6 @@
 import { Sprite } from "../../shared/objects/Sprite";
 import cactus from '../../assets/img/cactus.png';
+import { Game } from '../../shared/Game';
 import { 
   elt,
   GAME_BASELINE_UPPER_LIMIT
@@ -10,7 +11,6 @@ export class Obstacle {
   y: number;
   width: number;
   height: number;
-  xSpeed: number;
   sprite: Sprite;
   type: ObstacleType;
 
@@ -23,7 +23,6 @@ export class Obstacle {
     this.height = this.sprite.height;
     this.x = x;
     this.y = GAME_BASELINE_UPPER_LIMIT - this.height;
-    this.xSpeed = 200;
   }
 
   static async load () {
@@ -48,7 +47,7 @@ export class Obstacle {
     })
   }
 
-  update (dt: number) {
+  update (dt: number, state: Game) {
     let x = this.x;
     let y = this.y;
 
@@ -56,7 +55,7 @@ export class Obstacle {
       x = 900;
     
     } else {
-      x -= dt * this.xSpeed;
+      x -= dt * state.speed;
     }
 
     return new Obstacle(x, y, this.type);

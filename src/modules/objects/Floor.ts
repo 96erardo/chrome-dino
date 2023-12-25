@@ -8,7 +8,6 @@ import {
 export class Floor {
   x1: number;
   x2: number;
-  xSpeed: number;
   image: HTMLImageElement;
   
   static WIDTH: number = 2400;
@@ -20,7 +19,6 @@ export class Floor {
   ) {
     this.x1 = x1;
     this.x2 = x2;
-    this.xSpeed = 200;
   }
 
   static async load () {
@@ -39,8 +37,8 @@ export class Floor {
   }
 
   update (dt: number, state: Game, keys: Set<string>) {
-    let x1 = this.x1 - (dt * this.xSpeed);
-    let x2 = this.x2 - (dt * this.xSpeed);
+    let x1 = this.x1 - (dt * state.speed);
+    let x2 = this.x2 - (dt * state.speed);
     
     if ((x1 + Floor.WIDTH) < 0) {
       x1 = x2 + Floor.WIDTH;
