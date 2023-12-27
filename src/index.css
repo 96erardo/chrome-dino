@@ -9,3 +9,10 @@ body {
 
   background-color: rgb(247, 247, 247);
 }
+
+@font-face {
+  font-family: 'PressStart2P';
+  src: url(./assets/font/pressstart2p-regular.ttf);
+  font-style: normal;
+  font-weight: 400;
+}

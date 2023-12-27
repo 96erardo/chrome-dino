@@ -12,17 +12,16 @@ export class Score {
       this.highest = highest;
     } else {
       const stored = sessionStorage.getItem("highest")
-      this.highest = stored ? parseInt(stored) : undefined;
+      this.highest = stored ? parseInt(stored) : 0;
     }
   }
 
   update (dt: number, state: Game, keys: Set<string>): Game {
     let points = this.points + (dt * 10)
-
-    console.log(this.highest);
+    let highest = points > this.highest ? points : this.highest;
 
     if (state.status === GameStatus.Over) {
-      if (Math.floor(this.points) > (this.highest || 0)) {
+      if (Math.floor(this.points) >= Math.floor(this.highest)) {
         sessionStorage.setItem("highest", String(this.points))
       }
     }
@@ -30,7 +29,7 @@ export class Score {
     return Game.from(
       state,
       {
-        score: new Score(points, this.highest)
+        score: new Score(points, highest)
       }
     )
   }
@@ -38,28 +37,30 @@ export class Score {
   draw (ctx: CanvasRenderingContext2D): void {
     ctx.save()
 
-    ctx.font = '24px sans-serif';
-    ctx.fillStyle = 'black';
+    ctx.font = '16px PressStart2P';
+    ctx.fillStyle = 'rgb(83, 83, 83)';
     
-    const text = String(Math.floor(this.points)).padStart(5, '0');
+    const highText = 'HI ' + String(Math.floor(this.highest)).padStart(5, '0');
+    const pointsText = String(Math.floor(this.points)).padStart(5, '0');
 
-    const { width: scoreWidth } = ctx.measureText(text);
+    const { width: scoreWidth } = ctx.measureText(pointsText);
+    const { width: highWidth } = ctx.measureText(highText);
+
+    ctx.fillStyle = 'rgb(83, 83, 83)';
 
     ctx.fillText(
-      text,
+      pointsText,
       CANVAS_WIDTH - scoreWidth - 10, 
-      24 + 10
+      16 + 10
     )
 
-    if (this.highest) {
-      const highText = String(this.highest).padStart(5, '0');
-
-      ctx.fillText(
-        'HI ' + highText,
-        10, 
-        24 + 10
-      )
-    }
+    ctx.fillStyle = 'rgb(116, 116, 116)';
+    
+    ctx.fillText(
+      highText,
+      CANVAS_WIDTH - highWidth - scoreWidth - 20, 
+      16 + 10
+    )
 
     ctx.restore()
   }

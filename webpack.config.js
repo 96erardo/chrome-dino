@@ -21,7 +21,8 @@ module.exports = {
       { test: /\.tsx?$/, loader: "ts-loader" },
       { test: /\.js$/, loader: "source-map-loader" },
       { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource' },
-      { test: /\.css$/i, use: ['style-loader', 'css-loader'] }
+      { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
+      { test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource' },
     ]
   },
   plugins: [

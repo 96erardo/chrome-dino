@@ -2,6 +2,7 @@ import { Game } from '../../shared/Game';
 import floor from '../../assets/img/floor.png';
 import { 
   elt,
+  loadImage,
   GAME_BASELINE_POSITION
 } from '../../shared/utils';
 
@@ -22,18 +23,9 @@ export class Floor {
   }
 
   static async load () {
-    const img = elt('img', { src: floor }) as HTMLImageElement;
+    const img = await loadImage(floor);
 
-    await new Promise ((res) => {
-      function onLoad () {
-        Floor.prototype.image = img
-
-        img.removeEventListener('load', onLoad);
-        res('done')
-      }
-
-      img.addEventListener('load', onLoad)
-    })
+    Floor.prototype.image = img;
   }
 
   update (dt: number, state: Game, keys: Set<string>) {

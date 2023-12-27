@@ -9,6 +9,16 @@ let passed = 0;
 let i = 0;
 let game: Game;
 
+document.addEventListener('click', () => {
+  if (game && game.status === 'over') {
+    game = Game.initFromStatus(GameStatus.Playing)
+    keys.clear();
+    lastTime = 0
+
+    requestAnimationFrame(run);
+  }
+})
+
 document.addEventListener('keydown', (event) => {
   keys.add(event.key)
 })

@@ -4,6 +4,7 @@ import { Obstacle } from './Obstacle';
 import dinosaur from '../../assets/img/dinosaur.png';
 import { 
   elt,
+  loadImage,
   GAME_BASELINE_UPPER_LIMIT,
   rect_rect_collision,
 } from '../../shared/utils';
@@ -36,33 +37,24 @@ export class Player {
   }
 
   static async load () {
-    const img = elt('img', { src: dinosaur }) as HTMLImageElement;
+    const img = await loadImage(dinosaur);
 
-    await new Promise ((res) => {
-      function onLoad () {
-        Player.prototype.display = {
-          jumping: [
-            new Sprite(102, 0, 88, 90, img),
-          ],
-          running: [
-            new Sprite(294, 0, 88, 94, img),
-            new Sprite(390, 0, 88, 94, img),
-          ],
-          down: [
-            new Sprite(678, 34, 118, 60, img),
-            new Sprite(804, 34, 118, 60, img),
-          ],
-          lost: [
-            new Sprite(486, 0, 88, 94, img),
-          ],
-        }
-
-        img.removeEventListener('load', onLoad);
-        res('done')
-      }
-
-      img.addEventListener('load', onLoad)
-    })
+    Player.prototype.display = {
+      jumping: [
+        new Sprite(102, 0, 88, 90, img),
+      ],
+      running: [
+        new Sprite(294, 0, 88, 94, img),
+        new Sprite(390, 0, 88, 94, img),
+      ],
+      down: [
+        new Sprite(678, 34, 118, 60, img),
+        new Sprite(804, 34, 118, 60, img),
+      ],
+      lost: [
+        new Sprite(486, 0, 88, 94, img),
+      ],
+    }
   }
 
   update (dt: number, state: Game, keys: Set<string>) {

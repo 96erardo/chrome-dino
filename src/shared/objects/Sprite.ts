@@ -42,7 +42,7 @@ export class Sprite {
       }
 
       if (i !== 0 && i % (this.width * 4) === 0) {
-        console.log(row, a !== 0 ? `rgba(${r},${g},${b},${a})` : '');
+        // console.log(row, a !== 0 ? `rgba(${r},${g},${b},${a})` : '');
         row = '';
       }
 

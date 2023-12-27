@@ -2,8 +2,8 @@ import { Sprite } from "../../shared/objects/Sprite";
 import cactus from '../../assets/img/cactus.png';
 import { Game } from '../../shared/Game';
 import { 
-  elt,
-  GAME_BASELINE_UPPER_LIMIT
+  GAME_BASELINE_UPPER_LIMIT,
+  loadImage
 } from '../../shared/utils';
 
 export class Obstacle {
@@ -26,25 +26,16 @@ export class Obstacle {
   }
 
   static async load () {
-    const img = elt('img', { src: cactus }) as HTMLImageElement;
-
-    await new Promise ((res) => {
-      function onLoad () {
-        Obstacle.prototype.display = {
-          'sm-1': new Sprite(0, 14, 17, 35, img),
-          'sm-2': new Sprite(22, 14, 39, 35, img),
-          'sm-3': new Sprite(66, 14, 61, 35, img),
-          'lg-1': new Sprite(133, 0, 25, 50, img),
-          'lg-2': new Sprite(163, 0, 55, 50, img),
-          'lg-4': new Sprite(223, 0, 75, 49, img),
-        }
-
-        img.removeEventListener('load', onLoad);
-        res('loaded')
-      }
-
-      img.addEventListener('load', onLoad)
-    })
+    const img = await loadImage(cactus);
+    
+    Obstacle.prototype.display = {
+      'sm-1': new Sprite(0, 14, 17, 35, img),
+      'sm-2': new Sprite(22, 14, 39, 35, img),
+      'sm-3': new Sprite(66, 14, 61, 35, img),
+      'lg-1': new Sprite(133, 0, 25, 50, img),
+      'lg-2': new Sprite(163, 0, 55, 50, img),
+      'lg-4': new Sprite(223, 0, 75, 49, img),
+    }
   }
 
   update (dt: number, state: Game) {

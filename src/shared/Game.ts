@@ -3,6 +3,8 @@ import { Obstacle } from '../modules/objects/Obstacle';
 import { Spawner } from '../modules/objects/Spawner';
 import { Floor } from '../modules/objects/Floor';
 import { Score } from '../modules/objects/Score';
+import { font, loadImage } from './utils';
+import reset from '../assets/img/reset.png';
 
 export class Game {
   status: GameStatus;
@@ -22,7 +24,7 @@ export class Game {
     this.speed = config.speed;
     this.score = config.score;
     
-    this.acc = 20;
+    this.acc = 10;
     this.maxSpeed = 1000;
   };
 
@@ -31,6 +33,8 @@ export class Game {
       Player.load(),
       Obstacle.load(),
       Floor.load(),
+      font.load(),
+      loadImage(reset),
     ])
   }
 

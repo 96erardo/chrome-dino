@@ -1,5 +1,6 @@
 import { Player } from '../modules/objects/Player';
 import { Obstacle } from '../modules/objects/Obstacle';
+import pressStart2P from '../assets/font/pressstart2p-regular.ttf'
 
 export const CANVAS_WIDTH = 800;
 
@@ -10,6 +11,21 @@ export const GAME_BASELINE_THICKNESS = 4;
 export const GAME_BASELINE_POSITION = CANVAS_HEIGHT - 34;
 
 export const GAME_BASELINE_UPPER_LIMIT = GAME_BASELINE_POSITION + 20;
+
+export const font = new FontFace('PressStart2P', `url(${pressStart2P})`, {
+  style: 'normal',
+  weight: '400',
+})
+
+export async function loadImage (url: string): Promise<HTMLImageElement> {
+  return new Promise((resolve) => {
+    const img = elt('img', { src: url });
+
+    img.addEventListener('load', () => {
+      resolve(img as HTMLImageElement);
+    }, { once: true })
+  })
+}
 
 export function elt(name: string, attrs: Record<string, string>) {
   let dom = document.createElement(name);
