@@ -1,15 +1,19 @@
 import { Sprite } from '../../shared/objects/Sprite';
-import { Game, GameStatus } from '../../shared/Game';
-import { Obstacle } from './Obstacle';
+import { Cactus } from '../obstacles/Cactus';
 import dinosaur from '../../assets/img/dinosaur.png';
 import { 
-  elt,
   loadImage,
   GAME_BASELINE_UPPER_LIMIT,
   rect_rect_collision,
 } from '../../shared/utils';
 
-export class Player {
+import {
+  Object,
+  GameState,
+  GameStatus,
+} from "../../shared/types";
+
+export class Player implements Object {
   x: number;
   y: number;
   width: number;
@@ -57,7 +61,7 @@ export class Player {
     }
   }
 
-  update (dt: number, state: Game, keys: Set<string>) {
+  update (dt: number, state: GameState, keys: Set<string>): GameState {
     let x = this.x;
     let y = this.y;
     let ySpeed = this.ySpeed;
@@ -92,26 +96,20 @@ export class Player {
     y = y + dt * ySpeed;
 
     if (
-      state.spawner.onScreenObstacles.some((o: Obstacle) => rect_rect_collision(
+      state.spawner.onScreenObstacles.some((o: Cactus) => rect_rect_collision(
         new Player(x, y, ySpeed, status),
         o
       ))
     ) {
-      return Game.from(
-        state,
-        {
-          status: GameStatus.Over,
-          player: new Player(x, y, ySpeed, PlayerStatus.Lost)
-        }
-      )
+      return Object.assign(state, {
+        status: GameStatus.Over,
+        player: new Player(x, y, ySpeed, PlayerStatus.Lost)
+      })
     }
 
-    return Game.from(
-      state,
-      {
-        player: new Player(x, y, ySpeed, status)
-      }
-    )
+    return Object.assign(state, {
+      player: new Player(x, y, ySpeed, status)
+    })
   }
 
   draw (ctx: CanvasRenderingContext2D) {

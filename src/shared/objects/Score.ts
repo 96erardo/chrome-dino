@@ -1,7 +1,11 @@
-import { Game, GameStatus } from '../../shared/Game';
-import { CANVAS_WIDTH } from '../../shared/utils';
+import { CANVAS_WIDTH } from '../utils';
+import { Object, GameStatus, GameState } from "../types";
 
-export class Score {
+export class Score implements Object {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
   points: number;
   highest?: number;
 
@@ -16,7 +20,7 @@ export class Score {
     }
   }
 
-  update (dt: number, state: Game, keys: Set<string>): Game {
+  update (dt: number, state: GameState, keys: Set<string>): GameState {
     let points = this.points + (dt * 10)
     let highest = points > this.highest ? points : this.highest;
 
@@ -26,12 +30,10 @@ export class Score {
       }
     }
 
-    return Game.from(
+    return Object.assign(
       state,
-      {
-        score: new Score(points, highest)
-      }
-    )
+      { score: new Score(points, highest) }
+    );
   }
 
   draw (ctx: CanvasRenderingContext2D): void {

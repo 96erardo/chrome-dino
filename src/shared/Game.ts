@@ -1,28 +1,29 @@
-import { Player } from '../modules/objects/Player';
-import { Obstacle } from '../modules/objects/Obstacle';
-import { Spawner } from '../modules/objects/Spawner';
-import { Floor } from '../modules/objects/Floor';
-import { Score } from '../modules/objects/Score';
+import { Player } from '../modules/player/Player';
+import { Cactus } from '../modules/obstacles/Cactus';
+import { Spawner } from './objects/Spawner';
+import { Floor } from './objects/Floor';
+import { Score } from './objects/Score';
 import { font, loadImage } from './utils';
+import { Object, GameStatus, GameState } from './types';
 import reset from '../assets/img/reset.png';
 
 export class Game {
   status: GameStatus;
-  player: Player;
+  player: Object;
   spawner: Spawner;
-  floor: Floor;
+  objects: Array<Object>;
+  score: Object;
   acc: number;
   speed: number;
-  score: Score;
   maxSpeed: number;
 
   constructor (config: GameState) {
     this.status = config.status;
     this.player = config.player;
     this.spawner = config.spawner;
-    this.floor = config.floor;
-    this.speed = config.speed;
+    this.objects = config.objects;
     this.score = config.score;
+    this.speed = config.speed;
     
     this.acc = 10;
     this.maxSpeed = 1000;
@@ -31,7 +32,7 @@ export class Game {
   static async load () {
     await Promise.all([
       Player.load(),
-      Obstacle.load(),
+      Cactus.load(),
       Floor.load(),
       font.load(),
       loadImage(reset),
@@ -43,9 +44,9 @@ export class Game {
       status: game.status,
       player: game.player,
       spawner: game.spawner,
-      floor: game.floor,
-      speed: game.speed,
+      objects: game.objects,
       score: game.score,
+      speed: game.speed,
       ...config,
     })
   }
@@ -58,19 +59,22 @@ export class Game {
         3,
         300,
         [
-          new Obstacle(800, 428, "sm-1"),
-          new Obstacle(800, 388, "sm-2"),
-          new Obstacle(800, 428, "sm-3"),
-          new Obstacle(800, 388, "lg-1"),
-          new Obstacle(800, 428, "lg-2"),
-          new Obstacle(800, 388, "lg-4"),
+          new Cactus(800, 428, "sm-1"),
+          new Cactus(800, 388, "sm-2"),
+          new Cactus(800, 428, "sm-3"),
+          new Cactus(800, 388, "lg-1"),
+          new Cactus(800, 428, "lg-2"),
+          new Cactus(800, 388, "lg-4"),
         ],
         null,
         []
       ),
-      floor: new Floor(0, Floor.WIDTH),
-      speed: 200,
+      objects: [
+        new Floor(0), 
+        new Floor(Floor.WIDTH),
+      ],
       score: new Score(),
+      speed: 200,
     })
   }
 
@@ -79,35 +83,23 @@ export class Game {
       status: this.status,
       player: this.player,
       spawner: this.spawner,
-      floor: this.floor,
-      speed: this.speed,
+      objects: this.objects,
       score: this.score,
+      speed: this.speed,
     }
   }
 
-  update (dt: number, keys: Set<string>) {
+  update (dt: number, keys: Set<string>): Game {
     this.speed = Math.min(this.maxSpeed, this.speed + (this.acc * dt));
+    let state = this.getState();
 
-    let state = this.floor.update(dt, this, keys);
-    state = this.spawner.update(dt, state, keys);
-    state = this.player.update(dt, state, keys);
-    state = this.score.update(dt, state, keys);
+    let objects = this.objects.map((o) => o.update(dt, state, keys));
     
-    return state;
+    state = Object.assign(state, { objects });
+    state = this.spawner.update(dt, state, keys);
+    state = this.player.update(dt, state, keys) as GameState;
+    state = this.score.update(dt, state, keys) as GameState;
+
+    return Game.from(this, state);
   }
-}
-
-export type GameState = {
-  status: GameStatus,
-  player: Player,
-  spawner: Spawner,
-  floor: Floor,
-  speed: number,
-  score: Score,
-}
-
-export enum GameStatus {
-  Stop = "stop",
-  Playing = "playing",
-  Over = "over",
 }

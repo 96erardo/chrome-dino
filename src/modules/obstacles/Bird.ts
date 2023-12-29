@@ -1,12 +1,12 @@
 import { Sprite } from "../../shared/objects/Sprite";
-import cactus from '../../assets/img/cactus.png';
-import { Game } from '../../shared/Game';
+import bird from '../../assets/img/bird.png';
+import { Object, GameState } from '../../shared/types';
 import { 
   GAME_BASELINE_UPPER_LIMIT,
   loadImage
 } from '../../shared/utils';
 
-export class Obstacle {
+export class Bird implements Object {
   x: number;
   y: number;
   width: number;
@@ -26,9 +26,9 @@ export class Obstacle {
   }
 
   static async load () {
-    const img = await loadImage(cactus);
+    const img = await loadImage(bird);
     
-    Obstacle.prototype.display = {
+    Bird.prototype.display = {
       'sm-1': new Sprite(0, 14, 17, 35, img),
       'sm-2': new Sprite(22, 14, 39, 35, img),
       'sm-3': new Sprite(66, 14, 61, 35, img),
@@ -38,7 +38,7 @@ export class Obstacle {
     }
   }
 
-  update (dt: number, state: Game) {
+  update (dt: number, state: GameState): Object {
     let x = this.x;
     let y = this.y;
 
@@ -49,7 +49,7 @@ export class Obstacle {
       x -= dt * state.speed;
     }
 
-    return new Obstacle(x, y, this.type);
+    return new Bird(x, y, this.type);
   }
 
   draw (ctx: CanvasRenderingContext2D) {

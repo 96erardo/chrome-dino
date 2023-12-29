@@ -1,5 +1,5 @@
 import { Game } from './Game';
-import { Obstacle } from '../modules/objects/Obstacle';
+import { Cactus } from '../modules/obstacles/Cactus';
 import { 
   CANVAS_WIDTH, 
   CANVAS_HEIGHT,
@@ -29,13 +29,13 @@ export default class Display {
     this.ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     
     // Background
-    state.floor.draw(this.ctx);
+    state.objects.forEach((f) => f.draw(this.ctx));
     // Score
     state.score.draw(this.ctx);
     // Player
     state.player.draw(this.ctx);
     // Obstacles
-    state.spawner.onScreenObstacles.forEach((o: Obstacle) => o.draw(this.ctx))
+    state.spawner.onScreenObstacles.forEach((o: Cactus) => o.draw(this.ctx))
 
     if (state.status === "over") {
       this.ctx.save()

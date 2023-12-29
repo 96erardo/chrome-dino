@@ -1,5 +1,5 @@
-import { Player } from '../modules/objects/Player';
-import { Obstacle } from '../modules/objects/Obstacle';
+import { Player } from '../modules/player/Player';
+import { Cactus } from '../modules/obstacles/Cactus';
 import pressStart2P from '../assets/font/pressstart2p-regular.ttf'
 
 export const CANVAS_WIDTH = 800;
@@ -37,7 +37,7 @@ export function elt(name: string, attrs: Record<string, string>) {
   return dom;
 }
 
-export function rect_rect_collision (A: Player, B: Obstacle) {
+export function rect_rect_collision (A: Player, B: Cactus) {
   if (
     (A.x < (B.x + B.width)) &&
     (A.x + A.width > B.x) &&
@@ -50,7 +50,7 @@ export function rect_rect_collision (A: Player, B: Obstacle) {
   }
 }
 
-export function pixel_perfect_collision (player: Player, obstacle: Obstacle) {
+export function pixel_perfect_collision (player: Player, obstacle: Cactus) {
   const x1 = Math.max(player.x, obstacle.x);
   const x2 = Math.min((player.x + player.width), (obstacle.x + obstacle.width));
   

@@ -1,5 +1,6 @@
 import Display from "./shared/Display";
-import { Game, GameStatus } from "./shared/Game";
+import { Game } from "./shared/Game";
+import { GameStatus } from "./shared/types";
 import './index.css';
 
 const display = new Display();
