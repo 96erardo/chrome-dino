@@ -2,7 +2,6 @@ import { Sprite } from "../../shared/objects/Sprite";
 import bird from '../../assets/img/bird.png';
 import { Object, GameState } from '../../shared/types';
 import { 
-  GAME_BASELINE_UPPER_LIMIT,
   loadImage
 } from '../../shared/utils';
 
@@ -11,36 +10,31 @@ export class Bird implements Object {
   y: number;
   width: number;
   height: number;
+  tile: number;
   sprite: Sprite;
-  type: ObstacleType;
 
-  display: Record<string, Sprite>;
+  display: Array<Sprite>;
 
-  constructor (x: number, y: number, type: ObstacleType = "sm-1") {
-    this.type = type;
-    this.sprite = this.display[type]
+  constructor (x: number, y: number, tile: number) {
+    this.sprite = this.display[tile]
     this.width = this.sprite.width;
     this.height = this.sprite.height;
     this.x = x;
-    this.y = GAME_BASELINE_UPPER_LIMIT - this.height;
+    this.y = y;
   }
 
   static async load () {
     const img = await loadImage(bird);
     
-    Bird.prototype.display = {
-      'sm-1': new Sprite(0, 14, 17, 35, img),
-      'sm-2': new Sprite(22, 14, 39, 35, img),
-      'sm-3': new Sprite(66, 14, 61, 35, img),
-      'lg-1': new Sprite(133, 0, 25, 50, img),
-      'lg-2': new Sprite(163, 0, 55, 50, img),
-      'lg-4': new Sprite(223, 0, 75, 49, img),
-    }
+    Bird.prototype.display = [
+      new Sprite(0, 12, 92, 68, img),
+      new Sprite(96, 0, 92, 68, img)
+    ]
   }
 
   update (dt: number, state: GameState): Object {
     let x = this.x;
-    let y = this.y;
+    let tile = Math.floor(Date.now() / 500) % this.display.length;
 
     if ((this.x + this.width) < 0) {
       x = 900;
@@ -49,7 +43,7 @@ export class Bird implements Object {
       x -= dt * state.speed;
     }
 
-    return new Bird(x, y, this.type);
+    return new Bird(x, this.y, tile);
   }
 
   draw (ctx: CanvasRenderingContext2D) {
@@ -71,5 +65,3 @@ export class Bird implements Object {
     ctx.restore()
   }
 }
-
-type ObstacleType = 'sm-1' | 'sm-2' | 'sm-3' | 'lg-1' | 'lg-2' | 'lg-4';

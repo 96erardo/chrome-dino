@@ -2,7 +2,7 @@ import { Player } from '../modules/player/Player';
 import { Cactus } from '../modules/obstacles/Cactus';
 import pressStart2P from '../assets/font/pressstart2p-regular.ttf'
 
-export const CANVAS_WIDTH = 800;
+export const CANVAS_WIDTH = 1000;
 
 export const CANVAS_HEIGHT = 480;
 

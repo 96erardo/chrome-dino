@@ -1,9 +1,11 @@
 import { Player } from '../modules/player/Player';
 import { Cactus } from '../modules/obstacles/Cactus';
+import { Bird } from '../modules/obstacles/Bird';
+import { Empty } from '../modules/obstacles/Empty';
 import { Spawner } from './objects/Spawner';
 import { Floor } from './objects/Floor';
 import { Score } from './objects/Score';
-import { font, loadImage } from './utils';
+import { font, loadImage, CANVAS_WIDTH, GAME_BASELINE_POSITION } from './utils';
 import { Object, GameStatus, GameState } from './types';
 import reset from '../assets/img/reset.png';
 
@@ -25,7 +27,7 @@ export class Game {
     this.score = config.score;
     this.speed = config.speed;
     
-    this.acc = 10;
+    this.acc = 5;
     this.maxSpeed = 1000;
   };
 
@@ -33,6 +35,7 @@ export class Game {
     await Promise.all([
       Player.load(),
       Cactus.load(),
+      Bird.load(),
       Floor.load(),
       font.load(),
       loadImage(reset),
@@ -57,14 +60,18 @@ export class Game {
       player: new Player(50,200), 
       spawner: new Spawner(
         3,
-        300,
+        350,
         [
-          new Cactus(800, 428, "sm-1"),
-          new Cactus(800, 388, "sm-2"),
-          new Cactus(800, 428, "sm-3"),
-          new Cactus(800, 388, "lg-1"),
-          new Cactus(800, 428, "lg-2"),
-          new Cactus(800, 388, "lg-4"),
+          new Cactus(CANVAS_WIDTH, 428, "sm-1"),
+          new Cactus(CANVAS_WIDTH, 388, "sm-2"),
+          new Cactus(CANVAS_WIDTH, 428, "sm-3"),
+          new Empty(CANVAS_WIDTH, GAME_BASELINE_POSITION),
+          new Cactus(CANVAS_WIDTH, 388, "lg-1"),
+          new Cactus(CANVAS_WIDTH, 428, "lg-2"),
+          new Empty(CANVAS_WIDTH, GAME_BASELINE_POSITION),
+          new Cactus(CANVAS_WIDTH, 388, "lg-4"),
+          new Bird(CANVAS_WIDTH, 200, 0),
+          new Empty(CANVAS_WIDTH, GAME_BASELINE_POSITION),
         ],
         null,
         []
@@ -92,6 +99,8 @@ export class Game {
   update (dt: number, keys: Set<string>): Game {
     this.speed = Math.min(this.maxSpeed, this.speed + (this.acc * dt));
     let state = this.getState();
+
+    console.log(this.speed)
 
     let objects = this.objects.map((o) => o.update(dt, state, keys));
     

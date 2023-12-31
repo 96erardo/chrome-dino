@@ -1,5 +1,6 @@
 import { Sprite } from '../../shared/objects/Sprite';
 import { Cactus } from '../obstacles/Cactus';
+import { Empty } from '../obstacles/Empty';
 import dinosaur from '../../assets/img/dinosaur.png';
 import { 
   loadImage,
@@ -96,7 +97,9 @@ export class Player implements Object {
     y = y + dt * ySpeed;
 
     if (
-      state.spawner.onScreenObstacles.some((o: Cactus) => rect_rect_collision(
+      state.spawner.onScreenObstacles
+      .filter((o: Object) => o instanceof Empty === false)
+      .some((o: Cactus) => rect_rect_collision(
         new Player(x, y, ySpeed, status),
         o
       ))
