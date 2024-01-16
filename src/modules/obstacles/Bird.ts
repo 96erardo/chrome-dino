@@ -1,11 +1,11 @@
 import { Sprite } from "../../shared/objects/Sprite";
 import bird from '../../assets/img/bird.png';
-import { Object, GameState } from '../../shared/types';
+import { Obstacle, GameState } from '../../shared/types';
 import { 
   loadImage
 } from '../../shared/utils';
 
-export class Bird implements Object {
+export class Bird implements Obstacle {
   x: number;
   y: number;
   width: number;
@@ -32,7 +32,11 @@ export class Bird implements Object {
     ]
   }
 
-  update (dt: number, state: GameState): Object {
+  canAppear (state: GameState): boolean {
+    return state.speed > 500
+  }
+
+  update (dt: number, state: GameState): Obstacle {
     let x = this.x;
     let tile = Math.floor(Date.now() / 500) % this.display.length;
 

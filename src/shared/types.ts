@@ -13,6 +13,13 @@ export interface Object {
   draw(ctx: CanvasRenderingContext2D): void 
 }
 
+export interface Obstacle extends Object {  
+
+  update (dt: number, state: GameState, keys: Set<string>): Obstacle
+
+  canAppear (state: GameState): boolean
+}
+
 export enum GameStatus {
   Stop = "stop",
   Playing = "playing",

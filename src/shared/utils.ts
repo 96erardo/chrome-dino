@@ -12,6 +12,8 @@ export const GAME_BASELINE_POSITION = CANVAS_HEIGHT - 34;
 
 export const GAME_BASELINE_UPPER_LIMIT = GAME_BASELINE_POSITION + 20;
 
+export const DINO_TIME_IN_AIR = 0.8;
+
 export const font = new FontFace('PressStart2P', `url(${pressStart2P})`, {
   style: 'normal',
   weight: '400',

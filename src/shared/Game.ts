@@ -27,7 +27,7 @@ export class Game {
     this.score = config.score;
     this.speed = config.speed;
     
-    this.acc = 5;
+    this.acc = 10;
     this.maxSpeed = 1000;
   };
 
@@ -65,12 +65,11 @@ export class Game {
           new Cactus(CANVAS_WIDTH, 428, "sm-1"),
           new Cactus(CANVAS_WIDTH, 388, "sm-2"),
           new Cactus(CANVAS_WIDTH, 428, "sm-3"),
-          new Empty(CANVAS_WIDTH, GAME_BASELINE_POSITION),
           new Cactus(CANVAS_WIDTH, 388, "lg-1"),
           new Cactus(CANVAS_WIDTH, 428, "lg-2"),
-          new Empty(CANVAS_WIDTH, GAME_BASELINE_POSITION),
           new Cactus(CANVAS_WIDTH, 388, "lg-4"),
           new Bird(CANVAS_WIDTH, 200, 0),
+          new Empty(CANVAS_WIDTH, GAME_BASELINE_POSITION),
           new Empty(CANVAS_WIDTH, GAME_BASELINE_POSITION),
         ],
         null,
@@ -98,9 +97,8 @@ export class Game {
 
   update (dt: number, keys: Set<string>): Game {
     this.speed = Math.min(this.maxSpeed, this.speed + (this.acc * dt));
-    let state = this.getState();
 
-    console.log(this.speed)
+    let state = this.getState();
 
     let objects = this.objects.map((o) => o.update(dt, state, keys));
     

@@ -1,7 +1,7 @@
-import { Object, GameState } from '../../shared/types';
+import { GameState, Obstacle } from '../../shared/types';
 import { CANVAS_WIDTH } from '../../shared/utils';
 
-export class Empty implements Object {
+export class Empty implements Obstacle {
   x: number;
   y: number;
   width: number;
@@ -15,7 +15,11 @@ export class Empty implements Object {
     this.height = 1;
   }
 
-  update (dt: number, state: GameState): Object {
+  canAppear(state: GameState): boolean {
+    return true;
+  }
+
+  update (dt: number, state: GameState): Obstacle {
     let x = this.x;
     let y = this.y;
 

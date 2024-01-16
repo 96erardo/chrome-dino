@@ -7,7 +7,6 @@ import {
   GAME_BASELINE_UPPER_LIMIT,
   rect_rect_collision,
 } from '../../shared/utils';
-
 import {
   Object,
   GameState,
@@ -83,7 +82,7 @@ export class Player implements Object {
 
     if ((y + this.height) === GAME_BASELINE_UPPER_LIMIT && keys.has('ArrowUp')) {
       status = PlayerStatus.Jumping;
-      ySpeed += -800;
+      ySpeed += -900;
     }
 
     if (keys.has('ArrowDown')) {
