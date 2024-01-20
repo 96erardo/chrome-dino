@@ -23,6 +23,12 @@ export class Player implements Object {
   sprite: Array<Sprite>;
   display: Record<string, Array<Sprite>>
 
+  static STANDING_WIDTH = 88;
+  static STANDING_HEIGHT = 94;
+  
+  static DOWN_WIDTH = 118;
+  static DOWN_HEIGHT = 60;
+
   constructor (
     x: number, 
     y: number, 
@@ -45,18 +51,18 @@ export class Player implements Object {
 
     Player.prototype.display = {
       jumping: [
-        new Sprite(102, 0, 88, 90, img),
+        new Sprite(102, 0, Player.STANDING_WIDTH, Player.STANDING_HEIGHT, img),
       ],
       running: [
-        new Sprite(294, 0, 88, 94, img),
-        new Sprite(390, 0, 88, 94, img),
+        new Sprite(294, 0, Player.STANDING_WIDTH, Player.STANDING_HEIGHT, img),
+        new Sprite(390, 0, Player.STANDING_WIDTH, Player.STANDING_HEIGHT, img),
       ],
       down: [
-        new Sprite(678, 34, 118, 60, img),
-        new Sprite(804, 34, 118, 60, img),
+        new Sprite(678, 34, Player.DOWN_WIDTH, Player.DOWN_HEIGHT, img),
+        new Sprite(804, 34, Player.DOWN_WIDTH, Player.DOWN_HEIGHT, img),
       ],
       lost: [
-        new Sprite(486, 0, 88, 94, img),
+        new Sprite(486, 0, Player.STANDING_WIDTH, Player.STANDING_HEIGHT, img),
       ],
     }
   }
@@ -65,9 +71,10 @@ export class Player implements Object {
     let x = this.x;
     let y = this.y;
     let ySpeed = this.ySpeed;
-    let status = this.status;
+    let status = PlayerStatus.Running;
 
     if ((this.y + this.height) < ACT_FLOOR_POSITION) {
+      status = PlayerStatus.Jumping;
       ySpeed += dt * 2200;
 
     } else {
@@ -81,16 +88,26 @@ export class Player implements Object {
     }
 
     if ((y + this.height) === ACT_FLOOR_POSITION && keys.has('ArrowUp')) {
-      status = PlayerStatus.Jumping;
       ySpeed += -900;
     }
 
     if (keys.has('ArrowDown')) {
-      if (y + this.height === ACT_FLOOR_POSITION) {
-        y = ACT_FLOOR_POSITION - 60;
+      if (y + this.height >= ACT_FLOOR_POSITION) {
+        y = ACT_FLOOR_POSITION - Player.DOWN_HEIGHT;
+      
+      } else {
+        ySpeed += dt * 3000;
       }
 
       status = PlayerStatus.Down;
+    }
+
+    if (
+      !keys.has('ArrowDown') && 
+      this.status === PlayerStatus.Down &&
+      y + this.height >= ACT_FLOOR_POSITION
+    ) {
+      y -= (Player.STANDING_HEIGHT - Player.DOWN_HEIGHT)
     }
 
     y = y + dt * ySpeed;
@@ -103,6 +120,14 @@ export class Player implements Object {
         o
       ))
     ) {
+
+      if (
+        status === PlayerStatus.Down &&
+        (y + this.height) >= ACT_FLOOR_POSITION
+      ) {
+        y = ACT_FLOOR_POSITION - Player.STANDING_HEIGHT
+      }
+      
       return Object.assign(state, {
         status: GameStatus.Over,
         player: new Player(x, y, ySpeed, PlayerStatus.Lost)
