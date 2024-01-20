@@ -2,15 +2,13 @@ import { Player } from '../modules/player/Player';
 import { Cactus } from '../modules/obstacles/Cactus';
 import pressStart2P from '../assets/font/pressstart2p-regular.ttf'
 
-export const CANVAS_WIDTH = 1000;
+export const CANVAS_WIDTH = 840;
 
 export const CANVAS_HEIGHT = 480;
 
-export const GAME_BASELINE_THICKNESS = 4;
+export const DRAWN_FLOOR_POSITION = CANVAS_HEIGHT - 34;
 
-export const GAME_BASELINE_POSITION = CANVAS_HEIGHT - 34;
-
-export const GAME_BASELINE_UPPER_LIMIT = GAME_BASELINE_POSITION + 20;
+export const ACT_FLOOR_POSITION = DRAWN_FLOOR_POSITION + 20;
 
 export const DINO_TIME_IN_AIR = 0.8;
 

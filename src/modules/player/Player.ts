@@ -4,7 +4,7 @@ import { Empty } from '../obstacles/Empty';
 import dinosaur from '../../assets/img/dinosaur.png';
 import { 
   loadImage,
-  GAME_BASELINE_UPPER_LIMIT,
+  ACT_FLOOR_POSITION,
   rect_rect_collision,
 } from '../../shared/utils';
 import {
@@ -67,7 +67,7 @@ export class Player implements Object {
     let ySpeed = this.ySpeed;
     let status = this.status;
 
-    if ((this.y + this.height) < GAME_BASELINE_UPPER_LIMIT) {
+    if ((this.y + this.height) < ACT_FLOOR_POSITION) {
       ySpeed += dt * 2200;
 
     } else {
@@ -75,19 +75,19 @@ export class Player implements Object {
       ySpeed = 0
     }
     
-    if ((y + this.height) > GAME_BASELINE_UPPER_LIMIT) {
+    if ((y + this.height) > ACT_FLOOR_POSITION) {
       ySpeed = 0;
-      y = GAME_BASELINE_UPPER_LIMIT - this.height;
+      y = ACT_FLOOR_POSITION - this.height;
     }
 
-    if ((y + this.height) === GAME_BASELINE_UPPER_LIMIT && keys.has('ArrowUp')) {
+    if ((y + this.height) === ACT_FLOOR_POSITION && keys.has('ArrowUp')) {
       status = PlayerStatus.Jumping;
       ySpeed += -900;
     }
 
     if (keys.has('ArrowDown')) {
-      if (y + this.height === GAME_BASELINE_UPPER_LIMIT) {
-        y = GAME_BASELINE_UPPER_LIMIT - 60;
+      if (y + this.height === ACT_FLOOR_POSITION) {
+        y = ACT_FLOOR_POSITION - 60;
       }
 
       status = PlayerStatus.Down;

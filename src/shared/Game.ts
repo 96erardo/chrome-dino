@@ -5,7 +5,7 @@ import { Empty } from '../modules/obstacles/Empty';
 import { Spawner } from './objects/Spawner';
 import { Floor } from './objects/Floor';
 import { Score } from './objects/Score';
-import { font, loadImage, CANVAS_WIDTH, GAME_BASELINE_POSITION } from './utils';
+import { font, loadImage, CANVAS_WIDTH, DRAWN_FLOOR_POSITION } from './utils';
 import { Object, GameStatus, GameState } from './types';
 import reset from '../assets/img/reset.png';
 
@@ -27,8 +27,8 @@ export class Game {
     this.score = config.score;
     this.speed = config.speed;
     
-    this.acc = 10;
-    this.maxSpeed = 1000;
+    this.acc = 20;
+    this.maxSpeed = 1100;
   };
 
   static async load () {
@@ -68,9 +68,11 @@ export class Game {
           new Cactus(CANVAS_WIDTH, 388, "lg-1"),
           new Cactus(CANVAS_WIDTH, 428, "lg-2"),
           new Cactus(CANVAS_WIDTH, 388, "lg-4"),
-          new Bird(CANVAS_WIDTH, 200, 0),
-          new Empty(CANVAS_WIDTH, GAME_BASELINE_POSITION),
-          new Empty(CANVAS_WIDTH, GAME_BASELINE_POSITION),
+          new Bird("low", CANVAS_WIDTH, 0),
+          new Bird("medium", CANVAS_WIDTH, 0),
+          new Bird("high", CANVAS_WIDTH, 0),
+          new Empty(CANVAS_WIDTH, DRAWN_FLOOR_POSITION),
+          new Empty(CANVAS_WIDTH, DRAWN_FLOOR_POSITION),
         ],
         null,
         []

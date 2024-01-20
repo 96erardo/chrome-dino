@@ -1,5 +1,5 @@
 import { Object, GameState } from '../types';
-import { loadImage, GAME_BASELINE_POSITION } from '../utils';
+import { loadImage, DRAWN_FLOOR_POSITION } from '../utils';
 import floor from '../../assets/img/floor.png';
 
 export class Floor implements Object {
@@ -14,7 +14,7 @@ export class Floor implements Object {
 
   constructor (x: number) {
     this.x = x;
-    this.y = GAME_BASELINE_POSITION;
+    this.y = DRAWN_FLOOR_POSITION;
     this.width = Floor.WIDTH;
     this.height = Floor.HEIGHT;
   }
@@ -43,7 +43,7 @@ export class Floor implements Object {
       this.width, 
       this.height, 
       this.x, 
-      GAME_BASELINE_POSITION, 
+      DRAWN_FLOOR_POSITION, 
       this.width, 
       this.height
     );

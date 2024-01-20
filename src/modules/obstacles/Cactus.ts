@@ -2,7 +2,7 @@ import { Sprite } from "../../shared/objects/Sprite";
 import cactus from '../../assets/img/cactus.png';
 import { Obstacle, GameState } from '../../shared/types';
 import { 
-  GAME_BASELINE_UPPER_LIMIT,
+  ACT_FLOOR_POSITION,
   DINO_TIME_IN_AIR,
   loadImage
 } from '../../shared/utils';
@@ -23,7 +23,7 @@ export class Cactus implements Obstacle {
     this.width = this.sprite.width;
     this.height = this.sprite.height;
     this.x = x;
-    this.y = GAME_BASELINE_UPPER_LIMIT - this.height;
+    this.y = ACT_FLOOR_POSITION - this.height;
   }
 
   static async load () {
