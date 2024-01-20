@@ -4,17 +4,18 @@ import { Bird } from '../modules/obstacles/Bird';
 import { Empty } from '../modules/obstacles/Empty';
 import { Spawner } from './objects/Spawner';
 import { Floor } from './objects/Floor';
+import { Cloud } from './objects/Cloud';
 import { Score } from './objects/Score';
 import { font, loadImage, CANVAS_WIDTH, DRAWN_FLOOR_POSITION } from './utils';
-import { Object, GameStatus, GameState } from './types';
+import { Entity, GameStatus, GameState } from './types';
 import reset from '../assets/img/reset.png';
 
 export class Game {
   status: GameStatus;
-  player: Object;
+  player: Entity;
   spawner: Spawner;
-  objects: Array<Object>;
-  score: Object;
+  objects: Array<Entity>;
+  score: Entity;
   acc: number;
   speed: number;
   maxSpeed: number;
@@ -37,6 +38,7 @@ export class Game {
       Cactus.load(),
       Bird.load(),
       Floor.load(),
+      Cloud.load(),
       font.load(),
       loadImage(reset),
     ])
@@ -80,6 +82,10 @@ export class Game {
       objects: [
         new Floor(0), 
         new Floor(Floor.WIDTH),
+        new Cloud(CANVAS_WIDTH + 0, 124),
+        new Cloud(CANVAS_WIDTH + 300, 315),
+        new Cloud(CANVAS_WIDTH + 500, 275),
+        new Cloud(CANVAS_WIDTH + 900, 200),
       ],
       score: new Score(),
       speed: 200,

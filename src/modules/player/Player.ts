@@ -8,12 +8,12 @@ import {
   rect_rect_collision,
 } from '../../shared/utils';
 import {
-  Object,
+  Entity,
   GameState,
   GameStatus,
 } from "../../shared/types";
 
-export class Player implements Object {
+export class Player implements Entity {
   x: number;
   y: number;
   width: number;
@@ -114,7 +114,7 @@ export class Player implements Object {
 
     if (
       state.spawner.onScreenObstacles
-      .filter((o: Object) => o instanceof Empty === false)
+      .filter((o: Entity) => o instanceof Empty === false)
       .some((o: Cactus) => rect_rect_collision(
         new Player(x, y, ySpeed, status),
         o

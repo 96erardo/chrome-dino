@@ -1,8 +1,8 @@
-import { Object, GameState } from '../types';
+import { Entity, GameState } from '../types';
 import { loadImage, DRAWN_FLOOR_POSITION } from '../utils';
 import floor from '../../assets/img/floor.png';
 
-export class Floor implements Object {
+export class Floor implements Entity {
   x: number;
   y: number;
   width: number;
@@ -25,7 +25,7 @@ export class Floor implements Object {
     Floor.prototype.image = img;
   }
 
-  update (dt: number, state: GameState, keys: Set<string>): Object {
+  update (dt: number, state: GameState, keys: Set<string>): Entity {
     let x = this.x - (dt * state.speed);
     
     if ((x + this.width) < 0) {

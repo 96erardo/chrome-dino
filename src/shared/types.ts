@@ -1,6 +1,6 @@
 import { Spawner } from './objects/Spawner';
 
-export interface Object {
+export interface Entity {
   readonly x: number;
   readonly y: number;
   readonly width: number;
@@ -8,12 +8,12 @@ export interface Object {
   readonly xSpeed?: number;
   readonly ySpeed?: number;
   
-  update(dt: number, state: GameState, keys: Set<string>): GameState | Object
+  update(dt: number, state: GameState, keys: Set<string>): GameState | Entity
 
   draw(ctx: CanvasRenderingContext2D): void 
 }
 
-export interface Obstacle extends Object {  
+export interface Obstacle extends Entity {  
 
   update (dt: number, state: GameState, keys: Set<string>): Obstacle
 
@@ -28,9 +28,9 @@ export enum GameStatus {
 
 export type GameState = {
   status: GameStatus,
-  player: Object,
+  player: Entity,
   spawner: Spawner,
-  objects: Array<Object>,
-  score: Object,
+  objects: Array<Entity>,
+  score: Entity,
   speed: number,
 }

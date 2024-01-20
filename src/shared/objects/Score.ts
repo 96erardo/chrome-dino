@@ -1,7 +1,7 @@
 import { CANVAS_WIDTH } from '../utils';
-import { Object, GameStatus, GameState } from "../types";
+import { Entity, GameStatus, GameState } from "../types";
 
-export class Score implements Object {
+export class Score implements Entity {
   x: number;
   y: number;
   width: number;
