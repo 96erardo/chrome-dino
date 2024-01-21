@@ -6,7 +6,8 @@ import { Spawner } from './objects/Spawner';
 import { Floor } from './objects/Floor';
 import { Cloud } from './objects/Cloud';
 import { Score } from './objects/Score';
-import { font, loadImage, CANVAS_WIDTH, DRAWN_FLOOR_POSITION } from './utils';
+import { MediaPlayer } from './media/MediaPlayer';
+import { font, loadImage, CANVAS_WIDTH, DRAWN_FLOOR_POSITION, ACT_FLOOR_POSITION } from './utils';
 import { Entity, GameStatus, GameState } from './types';
 import reset from '../assets/img/reset.png';
 
@@ -39,6 +40,7 @@ export class Game {
       Bird.load(),
       Floor.load(),
       Cloud.load(),
+      MediaPlayer.load(),
       font.load(),
       loadImage(reset),
     ])
@@ -59,7 +61,7 @@ export class Game {
   static initFromStatus (status: GameStatus) {
     return new Game({
       status,
-      player: new Player(50,200), 
+      player: new Player(50, ACT_FLOOR_POSITION - Player.STANDING_HEIGHT), 
       spawner: new Spawner(
         3,
         350,

@@ -17,24 +17,34 @@ export const font = new FontFace('PressStart2P', `url(${pressStart2P})`, {
   weight: '400',
 })
 
-export async function loadImage (url: string): Promise<HTMLImageElement> {
-  return new Promise((resolve) => {
-    const img = elt('img', { src: url });
-
-    img.addEventListener('load', () => {
-      resolve(img as HTMLImageElement);
-    }, { once: true })
-  })
-}
-
-export function elt(name: string, attrs: Record<string, string>) {
+export function elt<T extends HTMLElement>(name: string, attrs: Record<string, string>): T {
   let dom = document.createElement(name);
 
   for (let attr of Object.keys(attrs)) {
     dom.setAttribute(attr, attrs[attr]);
   }
 
-  return dom;
+  return dom as T;
+}
+
+export async function loadImage (url: string): Promise<HTMLImageElement> {
+  return new Promise((resolve) => {
+    const img = elt<HTMLImageElement>('img', { src: url });
+
+    img.addEventListener('load', () => {
+      resolve(img);
+    }, { once: true })
+  })
+}
+
+export async function loadAudio (url: string): Promise<HTMLMediaElement> {
+  return new Promise((resolve) => {
+    const audio = elt<HTMLMediaElement>('audio', { src: url });
+
+    audio.addEventListener('canplaythrough', () => {
+      resolve(audio);
+    }, { once: true })
+  })
 }
 
 export function rect_rect_collision (A: Player, B: Cactus) {
