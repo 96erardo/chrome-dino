@@ -1,5 +1,6 @@
 # Dino Game
 ![Dino Game Demonstration](./dino-game.gif)
+
 The game that we all know and love from moments when there is no Internet around :(
 
 ### Run it
