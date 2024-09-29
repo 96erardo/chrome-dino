@@ -1,6 +1,6 @@
 {
   "name": "chrome-trex-game",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Game of a T-Rex dinosaur that jumps and avoids obstacles",
   "private": true,
   "scripts": {
