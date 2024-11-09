@@ -1,14 +1,17 @@
 import { State } from '../../shared/State';
+import { CANVAS_HEIGHT, GRAVITY_ACC } from '../../shared/constants';
 
 export class Dinosaur {
   x: number;
   y: number;
+  ySpeed: number;
   width: number;
   height: number;
 
-  constructor (x: number, y: number) {
+  constructor (x: number, y: number, ySpeed: number) {
     this.x = x;
     this.y = y;
+    this.ySpeed = ySpeed;
     this.width = 88;
     this.height = 94;
   }
@@ -16,26 +19,23 @@ export class Dinosaur {
   update (dt: number, state: State, keys: Set<string>): Dinosaur {
     let x = this.x;
     let y = this.y;
+    let ySpeed = this.ySpeed;
+
+    // Gravity
+    if ((y + this.height) < CANVAS_HEIGHT) {
+      ySpeed += GRAVITY_ACC * dt;
+
+      if (y + (ySpeed * dt) > CANVAS_HEIGHT) {
+        y = CANVAS_HEIGHT - this.height;
+        ySpeed = 0;
+      }
+    } else {
+      ySpeed = 0;
+    }
     
-    const speed = 100;
-
-    if (keys.has('ArrowUp')) {
-      y -= speed * dt;
-    }
-
-    if (keys.has('ArrowDown')) {
-      y += speed * dt;
-    }
-
-    if (keys.has('ArrowLeft')) {
-      x -= speed * dt;
-    }
-
-    if (keys.has('ArrowRight')) {
-      x += speed * dt;
-    }
-
-    return new Dinosaur(x, y);
+    y += ySpeed * dt;
+    
+    return new Dinosaur(x, y, ySpeed);
   }
 
   draw (ctx: CanvasRenderingContext2D) {

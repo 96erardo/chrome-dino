@@ -9,7 +9,7 @@ export class State {
 
   static initialState (): State {
     return new State(
-      new Dinosaur(0, 0)
+      new Dinosaur(0, 0, 0)
     )
   }
 }

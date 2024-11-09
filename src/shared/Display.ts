@@ -1,4 +1,5 @@
 import { State } from './State';
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants';
 
 export class Display {
   canvas: HTMLCanvasElement;
@@ -6,8 +7,8 @@ export class Display {
 
   constructor () {
     this.canvas = document.createElement('canvas');
-    this.canvas.width = 840;
-    this.canvas.height = 480;
+    this.canvas.width = CANVAS_WIDTH;
+    this.canvas.height = CANVAS_HEIGHT;
 
     this.ctx = this.canvas.getContext('2d');
 
