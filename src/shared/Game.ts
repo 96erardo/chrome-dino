@@ -10,6 +10,8 @@ export class Game {
   update (dt: number, keys: Set<string>) {
     const dinosaur = this.state.dinosaur.update(dt, this.state, keys);
 
+    console.log('dinosaur', dinosaur);
+
     this.state = new State(dinosaur);
   }
 }

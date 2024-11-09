@@ -14,7 +14,28 @@ export class Dinosaur {
   }
 
   update (dt: number, state: State, keys: Set<string>): Dinosaur {
-    return this;
+    let x = this.x;
+    let y = this.y;
+    
+    const speed = 100;
+
+    if (keys.has('ArrowUp')) {
+      y -= speed * dt;
+    }
+
+    if (keys.has('ArrowDown')) {
+      y += speed * dt;
+    }
+
+    if (keys.has('ArrowLeft')) {
+      x -= speed * dt;
+    }
+
+    if (keys.has('ArrowRight')) {
+      x += speed * dt;
+    }
+
+    return new Dinosaur(x, y);
   }
 
   draw (ctx: CanvasRenderingContext2D) {
