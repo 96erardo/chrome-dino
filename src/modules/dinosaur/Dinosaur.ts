@@ -1,7 +1,8 @@
 import { State } from '../../shared/State';
 import { CANVAS_HEIGHT, GRAVITY_ACC } from '../../shared/constants';
+import { Entity } from '../../shared/types';
 
-export class Dinosaur {
+export class Dinosaur implements Entity {
   x: number;
   y: number;
   ySpeed: number;
