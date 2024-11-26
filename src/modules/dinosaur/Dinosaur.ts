@@ -21,15 +21,19 @@ export class Dinosaur {
     let y = this.y;
     let ySpeed = this.ySpeed;
 
+    if ((y + this.height) === CANVAS_HEIGHT && keys.has('ArrowUp')) {
+      ySpeed = -900;
+    }
+
     // Gravity
     if ((y + this.height) < CANVAS_HEIGHT) {
       ySpeed += GRAVITY_ACC * dt;
 
-      if (y + (ySpeed * dt) > CANVAS_HEIGHT) {
+      if ((y + this.height) + (ySpeed * dt) > CANVAS_HEIGHT) {
         y = CANVAS_HEIGHT - this.height;
         ySpeed = 0;
       }
-    } else {
+    } else if (ySpeed > 0) {
       ySpeed = 0;
     }
     
