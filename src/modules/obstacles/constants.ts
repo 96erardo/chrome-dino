@@ -1,0 +1,1 @@
+export const MAX_ON_SCREEN = 3

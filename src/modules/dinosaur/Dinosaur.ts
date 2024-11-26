@@ -1,16 +1,23 @@
 import { State } from '../../shared/State';
-import { CANVAS_HEIGHT, GRAVITY_ACC } from '../../shared/constants';
+import { 
+  JUMPING_SPEED,
+  CANVAS_HEIGHT, 
+  GRAVITY_ACC 
+} from '../../shared/constants';
+import { Entity } from '../../shared/objects/Entity';
 
-export class Dinosaur {
+export class Dinosaur implements Entity {
   x: number;
   y: number;
+  xSpeed: number;
   ySpeed: number;
   width: number;
   height: number;
 
-  constructor (x: number, y: number, ySpeed: number) {
-    this.x = x;
+  constructor (y: number, ySpeed: number) {
+    this.x = 0;
     this.y = y;
+    this.xSpeed = 0;
     this.ySpeed = ySpeed;
     this.width = 88;
     this.height = 94;
@@ -22,7 +29,7 @@ export class Dinosaur {
     let ySpeed = this.ySpeed;
 
     if ((y + this.height) === CANVAS_HEIGHT && keys.has('ArrowUp')) {
-      ySpeed = -900;
+      ySpeed = JUMPING_SPEED;
     }
 
     // Gravity
@@ -39,7 +46,7 @@ export class Dinosaur {
     
     y += ySpeed * dt;
     
-    return new Dinosaur(x, y, ySpeed);
+    return new Dinosaur(y, ySpeed);
   }
 
   draw (ctx: CanvasRenderingContext2D) {

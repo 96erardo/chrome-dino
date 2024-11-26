@@ -18,6 +18,7 @@ export class Display {
   draw (state: State) {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
-    state.dinosaur.draw(this.ctx)
+    state.obstacles.draw(this.ctx);
+    state.dinosaur.draw(this.ctx);
   }
 }

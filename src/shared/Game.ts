@@ -8,8 +8,9 @@ export class Game {
   }
 
   update (dt: number, keys: Set<string>) {
+    const obstacles = this.state.obstacles.update(dt, this.state, keys);
     const dinosaur = this.state.dinosaur.update(dt, this.state, keys);
 
-    this.state = new State(dinosaur);
+    this.state = new State(dinosaur, obstacles);
   }
 }
