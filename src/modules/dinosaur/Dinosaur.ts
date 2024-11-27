@@ -1,15 +1,10 @@
 import { State } from '../../shared/State';
-<<<<<<< HEAD
-import { CANVAS_HEIGHT, GRAVITY_ACC } from '../../shared/constants';
-import { Entity } from '../../shared/types';
-=======
 import { 
   JUMPING_SPEED,
   CANVAS_HEIGHT, 
   GRAVITY_ACC 
 } from '../../shared/constants';
 import { Entity } from '../../shared/objects/Entity';
->>>>>>> correction
 
 export class Dinosaur implements Entity {
   x: number;
