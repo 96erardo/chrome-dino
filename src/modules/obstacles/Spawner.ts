@@ -1,14 +1,16 @@
 import { Cactus, CactusType } from './Cactus';
 import { State } from '../../shared/State';
 import { MAX_ON_SCREEN } from './constants';
-import { CANVAS_WIDTH } from '../../shared/constants';
-import { Entity } from '../../shared/objects/Entity';
+import { CANVAS_WIDTH, JUMPING_TIME } from '../../shared/constants';
+import { Obstacle } from '../../shared/objects/Obstacle';
 
 export class Spawner {
-  obstacles: Array<Entity>
+  obstacles: Array<Obstacle>
+  nextAt: number;
 
-  constructor (obstacles: Array<Entity>) {
+  constructor (obstacles: Array<Obstacle>, nextAt: number = 0) {
     this.obstacles = obstacles;
+    this.nextAt = nextAt;
   }
 
   update (dt: number, state: State, keys: Set<string>): Spawner {
@@ -16,26 +18,19 @@ export class Spawner {
       .map(obstacle => obstacle.update(dt, state, keys))
       .filter(obstacle => obstacle.x + obstacle.width > 0);
     
-    if (
-      this.obstacles.length < MAX_ON_SCREEN
-    ) {
-      if (this.obstacles.length === 0) {
-        const index = Math.round(Math.random() * (factory.length - 1));
-  
-        obstacles.push(factory[index]());
+    let nextAt = Math.max(0, this.nextAt - (state.speed.value * dt));
 
-      } else {
-        const { [this.obstacles.length - 1]: last } = this.obstacles;
-  
-        if ((last.x + last.width) + 300 < CANVAS_WIDTH) {
-          const index = Math.round(Math.random() * (factory.length - 1));
-  
-          obstacles.push(factory[index]());
-        }
+    if (nextAt === 0 && obstacles.length < MAX_ON_SCREEN) {
+      const index = Math.round(Math.random() * (factory.length - 1));
+      const newObstacle = factory[index]();
+
+      if (newObstacle.canAppear(state)) {
+        nextAt = (JUMPING_TIME * state.speed.value) + (Math.random() * CANVAS_WIDTH);
+        obstacles.push(factory[index]());
       }
     }
 
-    return new Spawner(obstacles);
+    return new Spawner(obstacles, nextAt);
   }
 
   draw (ctx: CanvasRenderingContext2D) {
@@ -43,7 +38,7 @@ export class Spawner {
   }
 }
 
-const factory: Array<() => Entity> = [
+const factory: Array<() => Obstacle> = [
   () => new Cactus(CactusType.SM1, CANVAS_WIDTH),
   () => new Cactus(CactusType.SM2, CANVAS_WIDTH),
   () => new Cactus(CactusType.SM3, CANVAS_WIDTH),

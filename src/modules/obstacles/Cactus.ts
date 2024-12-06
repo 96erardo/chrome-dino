@@ -1,8 +1,9 @@
-import { CANVAS_HEIGHT } from '../../shared/constants';
-import { Entity } from '../../shared/objects/Entity';
+import { CANVAS_HEIGHT, GRAVITY_ACC, JUMPING_TIME, JUMPING_SPEED } from '../../shared/constants';
+import { Obstacle } from '../../shared/objects/Obstacle';
 import { State } from '../../shared/State';
+import { timeToHeight } from '../../shared/utils';
 
-export class Cactus implements Entity {
+export class Cactus implements Obstacle {
   x: number;
   y: number;
   width: number;
@@ -23,10 +24,18 @@ export class Cactus implements Entity {
     this.ySpeed = 0;
   }
 
+  canAppear (state: State) {
+    const timeNotAbove = timeToHeight(GRAVITY_ACC, JUMPING_SPEED, this.height) * 2;
+    const timeAbove = JUMPING_TIME - timeNotAbove;
+    const distance = state.speed.value * timeAbove - state.dinosaur.width;
+
+    return distance > this.width;
+  }
+
   update (dt: number, state: State, keys: Set<string>): Cactus {
     let x = this.x;
 
-    x -= state.speed * dt;
+    x -= state.speed.value * dt;
 
     return new Cactus(this.type, x);
   }
