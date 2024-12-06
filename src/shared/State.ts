@@ -1,13 +1,14 @@
 import { Dinosaur } from '../modules/dinosaur/Dinosaur';
 import { Spawner } from '../modules/obstacles/Spawner';
+import { Speed } from './objects/Speed';
 
 export class State {
-  speed: number;
+  speed: Speed;
   dinosaur: Dinosaur;
   obstacles: Spawner; 
 
-  constructor (dinosaur: Dinosaur, obstacles: Spawner) { 
-    this.speed = 300;
+  constructor (dinosaur: Dinosaur, obstacles: Spawner, speed: Speed) { 
+    this.speed = speed;
     this.dinosaur = dinosaur;
     this.obstacles = obstacles;
   }
@@ -16,6 +17,7 @@ export class State {
     return new State(
       new Dinosaur(0, 0),
       new Spawner([]),
+      new Speed()
     )
   }
 }
