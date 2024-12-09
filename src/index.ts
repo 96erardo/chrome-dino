@@ -1,5 +1,5 @@
 import { Game } from './shared/Game'; 
-import { State } from './shared/State'; 
+import { State, GameStatus } from './shared/State'; 
 import { Display } from './shared/Display'; 
 import './index.css';
 
@@ -10,6 +10,16 @@ let lastTime = 0;
 
 document.addEventListener('keydown', (e) => {
   keys.add(e.key)
+
+  if (
+    game.state.status === GameStatus.Ended &&
+    e.code === 'Space'
+  ) {
+    game.restart()
+
+    lastTime = 0;
+    requestAnimationFrame(run)
+  }
 });
 
 document.addEventListener('keyup', (e) => {
@@ -24,7 +34,9 @@ function run (timestamp: DOMHighResTimeStamp) {
 
   display.draw(game.state);
 
-  requestAnimationFrame(run);
+  if (game.state.status === GameStatus.Running) {
+    requestAnimationFrame(run);
+  }
 }
 
 requestAnimationFrame(run);

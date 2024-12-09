@@ -4,10 +4,17 @@ import { Speed } from './objects/Speed';
 
 export class State {
   speed: Speed;
+  status: GameStatus;
   dinosaur: Dinosaur;
   obstacles: Spawner; 
 
-  constructor (dinosaur: Dinosaur, obstacles: Spawner, speed: Speed) { 
+  constructor (
+    status: GameStatus,
+    dinosaur: Dinosaur, 
+    obstacles: Spawner, 
+    speed: Speed
+  ) { 
+    this.status = status;
     this.speed = speed;
     this.dinosaur = dinosaur;
     this.obstacles = obstacles;
@@ -15,9 +22,15 @@ export class State {
 
   static initialState (): State {
     return new State(
+      GameStatus.Running,
       new Dinosaur(0, 0),
       new Spawner([]),
       new Speed()
     )
   }
+}
+
+export enum GameStatus {
+  Running = "Running",
+  Ended = "Ended",
 }
