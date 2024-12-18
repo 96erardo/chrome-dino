@@ -2,6 +2,8 @@ export const JUMPING_SPEED = -900;
 
 export const GRAVITY_ACC = 2200;
 
+export const DUCKING_ACC = 5200;
+
 export const GAME_ACC = 20;
 
 export const GAME_MAX_SPEED = 1500;

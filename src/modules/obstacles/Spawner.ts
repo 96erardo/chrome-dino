@@ -1,4 +1,5 @@
 import { Cactus, CactusType } from './Cactus';
+import { Bird, BirdPosition } from './Bird';
 import { State } from '../../shared/State';
 import { MAX_ON_SCREEN } from './constants';
 import { CANVAS_WIDTH, JUMPING_TIME } from '../../shared/constants';
@@ -45,4 +46,7 @@ const factory: Array<() => Obstacle> = [
   () => new Cactus(CactusType.LG1, CANVAS_WIDTH),
   () => new Cactus(CactusType.LG2, CANVAS_WIDTH),
   () => new Cactus(CactusType.LG3, CANVAS_WIDTH),
+  () => new Bird(CANVAS_WIDTH, BirdPosition.Low),
+  () => new Bird(CANVAS_WIDTH, BirdPosition.Medium),
+  () => new Bird(CANVAS_WIDTH, BirdPosition.High),
 ]
