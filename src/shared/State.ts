@@ -1,9 +1,11 @@
 import { Dinosaur } from '../modules/dinosaur/Dinosaur';
 import { Spawner } from '../modules/obstacles/Spawner';
 import { Speed } from './objects/Speed';
+import { Score } from './objects/Score';
 
 export class State {
   speed: Speed;
+  score: Score;
   status: GameStatus;
   dinosaur: Dinosaur;
   obstacles: Spawner; 
@@ -12,12 +14,14 @@ export class State {
     status: GameStatus,
     dinosaur: Dinosaur, 
     obstacles: Spawner, 
-    speed: Speed
+    speed: Speed,
+    score: Score,
   ) { 
     this.status = status;
     this.speed = speed;
     this.dinosaur = dinosaur;
     this.obstacles = obstacles;
+    this.score = score;
   }
 
   static initialState (): State {
@@ -25,7 +29,8 @@ export class State {
       GameStatus.Running,
       new Dinosaur(0, 0),
       new Spawner([]),
-      new Speed()
+      new Speed(),
+      new Score(),
     )
   }
 }

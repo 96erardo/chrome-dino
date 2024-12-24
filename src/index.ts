@@ -36,6 +36,8 @@ function run (timestamp: DOMHighResTimeStamp) {
 
   if (game.state.status === GameStatus.Running) {
     requestAnimationFrame(run);
+  } else {
+    game.end();
   }
 }
 

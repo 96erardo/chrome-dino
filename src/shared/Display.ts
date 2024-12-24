@@ -20,5 +20,6 @@ export class Display {
     
     state.obstacles.draw(this.ctx);
     state.dinosaur.draw(this.ctx);
+    state.score.draw(this.ctx);
   }
 }

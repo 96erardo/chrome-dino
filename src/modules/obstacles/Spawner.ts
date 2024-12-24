@@ -15,6 +15,10 @@ export class Spawner {
   }
 
   update (dt: number, state: State, keys: Set<string>): Spawner {
+    if (state.score.points < 30) {
+      return this;
+    }
+
     const obstacles = this.obstacles
       .map(obstacle => obstacle.update(dt, state, keys))
       .filter(obstacle => obstacle.x + obstacle.width > 0);
