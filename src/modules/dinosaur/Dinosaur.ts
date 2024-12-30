@@ -6,6 +6,10 @@ import {
   DUCKING_ACC
 } from '../../shared/constants';
 import { Entity } from '../../shared/objects/Entity';
+import { Sprite } from '../../shared/objects/Sprite';
+import { SpriteSheet } from '../../shared/objects/SpriteSheet';
+import dinosaur from '../../assets/img/dinosaur.png';
+import { loadImage } from '../../shared/utils';
 
 export class Dinosaur implements Entity {
   x: number;
@@ -15,6 +19,7 @@ export class Dinosaur implements Entity {
   width: number;
   height: number;
   status: DinoStatus;
+  display: SpriteSheet;
 
   static STANDING_WIDTH = 88;
   static STANDING_HEIGHT = 94;
@@ -25,7 +30,7 @@ export class Dinosaur implements Entity {
   constructor (
     y: number, 
     ySpeed: number,
-    status: DinoStatus = DinoStatus.Standing
+    status: DinoStatus = DinoStatus.Running
   ) {
     this.x = 0;
     this.y = y;
@@ -33,13 +38,40 @@ export class Dinosaur implements Entity {
     this.ySpeed = ySpeed;
     this.status = status;
 
-    if (this.status === DinoStatus.Standing) {
-      this.width = Dinosaur.STANDING_WIDTH;
-      this.height = Dinosaur.STANDING_HEIGHT;
-    } else {
+    if (this.status === DinoStatus.Ducking) {
       this.width = Dinosaur.DUCKING_WIDTH;
       this.height = Dinosaur.DUCKING_HEIGHT;
+    } else {
+      this.width = Dinosaur.STANDING_WIDTH;
+      this.height = Dinosaur.STANDING_HEIGHT;
     }
+  }
+
+  static async load () {
+    const img = await loadImage(dinosaur);
+
+    Dinosaur.prototype.display = new SpriteSheet({
+      Running: {
+        interval: 150,
+        sprites: [
+          new Sprite(294, 0, Dinosaur.STANDING_WIDTH, Dinosaur.STANDING_HEIGHT, img),
+          new Sprite(390, 0, Dinosaur.STANDING_WIDTH, Dinosaur.STANDING_HEIGHT, img),
+        ]
+      },
+      Jumping: {
+        sprites: new Sprite(102, 0, Dinosaur.STANDING_WIDTH, Dinosaur.STANDING_HEIGHT, img),
+      },
+      Ducking: {
+        interval: 150,
+        sprites: [
+          new Sprite(678, 34, Dinosaur.DUCKING_WIDTH, Dinosaur.DUCKING_HEIGHT, img),
+          new Sprite(804, 34, Dinosaur.DUCKING_WIDTH, Dinosaur.DUCKING_HEIGHT, img)
+        ]
+      },
+      Dead: {
+        sprites: new Sprite(486, 0, Dinosaur.STANDING_WIDTH, Dinosaur.STANDING_HEIGHT, img)
+      }
+    })
   }
 
   update (dt: number, state: State, keys: Set<string>): Dinosaur {
@@ -49,7 +81,8 @@ export class Dinosaur implements Entity {
     let height = this.height;
 
     // Jumping
-    if ((y + this.height) === CANVAS_HEIGHT && keys.has('ArrowUp')) { 
+    if ((y + this.height) === CANVAS_HEIGHT && keys.has('ArrowUp')) {
+      status = DinoStatus.Jumping;
       ySpeed = JUMPING_SPEED;
     }
 
@@ -57,8 +90,13 @@ export class Dinosaur implements Entity {
       status = DinoStatus.Ducking;
       height = Dinosaur.DUCKING_HEIGHT;
     } else {
-      status = DinoStatus.Standing;
       height = Dinosaur.STANDING_HEIGHT;
+
+      if ((y + height) < CANVAS_HEIGHT) {
+        status = DinoStatus.Jumping;
+      } else {
+        status = DinoStatus.Running;
+      }
     }
 
     if (this.status !== status) {
@@ -70,8 +108,10 @@ export class Dinosaur implements Entity {
     // Gravity
     if ((y + height) < CANVAS_HEIGHT) {
       if (keys.has('ArrowDown')) {
+        status = DinoStatus.Ducking;
         ySpeed += DUCKING_ACC * dt;
       } else {
+        status = DinoStatus.Jumping;
         ySpeed += GRAVITY_ACC * dt;
       }
 
@@ -92,13 +132,30 @@ export class Dinosaur implements Entity {
     return new Dinosaur(y, ySpeed, status);
   }
 
+  died () {
+    if (this.status === DinoStatus.Ducking) {
+      this.y = this.y - (Dinosaur.STANDING_HEIGHT - Dinosaur.DUCKING_HEIGHT)
+      this.x = this.x + (Dinosaur.DUCKING_WIDTH - Dinosaur.STANDING_WIDTH)
+      this.width = Dinosaur.STANDING_WIDTH;
+      this.height = Dinosaur.STANDING_HEIGHT;
+    }
+
+    this.status = DinoStatus.Dead;
+  }
+
   draw (ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = 'red';
+    const sprite = this.display.getSprite(this.status);
+
+    ctx.fillStyle = 'rgba(0,0,0,.1)';
     ctx.fillRect(this.x, this.y, this.width, this.height);
+
+    ctx.drawImage(sprite.image, sprite.x, sprite.y, sprite.width, sprite.height, this.x, this.y, this.width, this.height)
   }
 }
 
 export enum DinoStatus {
-  Standing,
-  Ducking,
+  Running = "Running",
+  Jumping = "Jumping",
+  Ducking = "Ducking",
+  Dead = "Dead"
 }

@@ -41,4 +41,4 @@ function run (timestamp: DOMHighResTimeStamp) {
   }
 }
 
-requestAnimationFrame(run);
+game.load().then(() => requestAnimationFrame(run));
