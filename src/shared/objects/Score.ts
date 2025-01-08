@@ -36,7 +36,7 @@ export class Score implements Entity {
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.save()
 
-    ctx.font = '20px Sans-Serif';
+    ctx.font = '16px PressStart2P';
     ctx.fillStyle = 'rgb(83, 83, 83)';
     
     const highText = 'HI ' + String(Math.floor(this.highest)).padStart(5, '0');

@@ -2,6 +2,8 @@ import { State, GameStatus } from './State';
 import { Collision } from './objects/Collision';
 import { Dinosaur } from '../modules/dinosaur/Dinosaur';
 import { Cactus } from '../modules/obstacles/Cactus';
+import { Bird } from '../modules/obstacles/Bird';
+import { font } from './assets';
 
 export class Game {
   state: State;
@@ -13,10 +15,13 @@ export class Game {
   }
 
   async load () {
-    return Promise.all([
+    await Promise.all([
       Dinosaur.load(),
       Cactus.load(),
+      Bird.load(),
     ])
+
+    document.fonts.add(await font.load());
   }
 
   update (dt: number, keys: Set<string>) {

@@ -1,7 +1,10 @@
 import { CANVAS_HEIGHT, GRAVITY_ACC, JUMPING_TIME, JUMPING_SPEED } from '../../shared/constants';
 import { Obstacle } from '../../shared/objects/Obstacle';
 import { State } from '../../shared/State';
-import { timeToHeight } from '../../shared/utils';
+import { Sprite } from '../../shared/objects/Sprite';
+import { SpriteSheet } from '../../shared/objects/SpriteSheet';
+import { loadImage, timeToHeight } from '../../shared/utils';
+import bird from '../../assets/img/bird.png';
 
 export class Bird implements Obstacle {
   x: number;
@@ -11,6 +14,7 @@ export class Bird implements Obstacle {
   xSpeed: number;
   ySpeed: number;
   position: BirdPosition;
+  display: SpriteSheet;
 
   static WIDTH = 92;
   static HEIGHT = 80;
@@ -23,6 +27,20 @@ export class Bird implements Obstacle {
     this.y = CANVAS_HEIGHT - (this.height * (position + 1));
 
     this.position = position;
+  }
+
+  static async load () {
+    const img = await loadImage(bird);
+
+    Bird.prototype.display = new SpriteSheet({
+      'original': {
+        interval: 500,
+        sprites: [
+          new Sprite(0, 0, Bird.WIDTH, Bird.HEIGHT, img),
+          new Sprite(96, 0, Bird.WIDTH, Bird.HEIGHT, img),
+        ]
+      }
+    })
   }
 
   canAppear (state: State): boolean {
@@ -46,8 +64,22 @@ export class Bird implements Obstacle {
   }
 
   draw (ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = 'black';
+    const sprite = this.display.getSprite('original');
+
+    ctx.fillStyle = 'rgba(0,0,0,.1)';
     ctx.fillRect(this.x, this.y, this.width, this.height);
+    
+    ctx.drawImage(
+      sprite.image, 
+      sprite.x, 
+      sprite.y, 
+      sprite.width, 
+      sprite.height, 
+      this.x, 
+      this.y, 
+      this.width, 
+      this.height
+    )
   }
 }
 
