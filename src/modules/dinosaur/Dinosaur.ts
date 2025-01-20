@@ -1,7 +1,7 @@
 import { State } from '../../shared/State';
 import { 
   JUMPING_SPEED,
-  CANVAS_HEIGHT, 
+  GAME_FLOOR, 
   GRAVITY_ACC, 
   DUCKING_ACC
 } from '../../shared/constants';
@@ -81,7 +81,7 @@ export class Dinosaur implements Entity {
     let height = this.height;
 
     // Jumping
-    if ((y + this.height) === CANVAS_HEIGHT && keys.has('ArrowUp')) {
+    if ((y + this.height) === GAME_FLOOR && keys.has('ArrowUp')) {
       status = DinoStatus.Jumping;
       ySpeed = JUMPING_SPEED;
     }
@@ -92,7 +92,7 @@ export class Dinosaur implements Entity {
     } else {
       height = Dinosaur.STANDING_HEIGHT;
 
-      if ((y + height) < CANVAS_HEIGHT) {
+      if ((y + height) < GAME_FLOOR) {
         status = DinoStatus.Jumping;
       } else {
         status = DinoStatus.Running;
@@ -100,13 +100,13 @@ export class Dinosaur implements Entity {
     }
 
     if (this.status !== status) {
-      if (y + this.height === CANVAS_HEIGHT) {
-        y = CANVAS_HEIGHT - height;
+      if (y + this.height === GAME_FLOOR) {
+        y = GAME_FLOOR - height;
       }
     }
 
     // Gravity
-    if ((y + height) < CANVAS_HEIGHT) {
+    if ((y + height) < GAME_FLOOR) {
       if (keys.has('ArrowDown')) {
         status = DinoStatus.Ducking;
         ySpeed += DUCKING_ACC * dt;
@@ -115,12 +115,12 @@ export class Dinosaur implements Entity {
         ySpeed += GRAVITY_ACC * dt;
       }
 
-      if ((y + height) + (ySpeed * dt) > CANVAS_HEIGHT) {
-        y = CANVAS_HEIGHT - height;
+      if ((y + height) + (ySpeed * dt) > GAME_FLOOR) {
+        y = GAME_FLOOR - height;
         ySpeed = 0;
       }
-    } else if ((y + height > CANVAS_HEIGHT)) {
-      y = CANVAS_HEIGHT - height;
+    } else if ((y + height > GAME_FLOOR)) {
+      y = GAME_FLOOR - height;
       ySpeed = 0;
 
     } else if (ySpeed > 0) {

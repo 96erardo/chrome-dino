@@ -13,3 +13,5 @@ export const JUMPING_TIME = (2 * Math.abs(JUMPING_SPEED)) / GRAVITY_ACC;
 export const CANVAS_WIDTH = 840;
 
 export const CANVAS_HEIGHT = 480;
+
+export const GAME_FLOOR = CANVAS_HEIGHT - 14;

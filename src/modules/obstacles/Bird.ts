@@ -1,4 +1,4 @@
-import { CANVAS_HEIGHT, GRAVITY_ACC, JUMPING_TIME, JUMPING_SPEED } from '../../shared/constants';
+import { CANVAS_HEIGHT, GRAVITY_ACC, JUMPING_TIME, JUMPING_SPEED, GAME_FLOOR } from '../../shared/constants';
 import { Obstacle } from '../../shared/objects/Obstacle';
 import { State } from '../../shared/State';
 import { Sprite } from '../../shared/objects/Sprite';
@@ -24,7 +24,7 @@ export class Bird implements Obstacle {
     this.height = Bird.HEIGHT;
 
     this.x = x;
-    this.y = CANVAS_HEIGHT - (this.height * (position + 1));
+    this.y = GAME_FLOOR - (this.height * (position + 1));
 
     this.position = position;
   }

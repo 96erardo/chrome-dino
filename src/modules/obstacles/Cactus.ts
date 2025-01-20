@@ -1,4 +1,4 @@
-import { CANVAS_HEIGHT, GRAVITY_ACC, JUMPING_TIME, JUMPING_SPEED } from '../../shared/constants';
+import { GAME_FLOOR, GRAVITY_ACC, JUMPING_TIME, JUMPING_SPEED } from '../../shared/constants';
 import { Obstacle } from '../../shared/objects/Obstacle';
 import { State } from '../../shared/State';
 import { loadImage, timeToHeight } from '../../shared/utils';
@@ -21,7 +21,7 @@ export class Cactus implements Obstacle {
 
     this.type = type
     this.x = x;
-    this.y = CANVAS_HEIGHT - height;
+    this.y = GAME_FLOOR - height;
     this.width = width;
     this.height = height;
     this.xSpeed = 0;
