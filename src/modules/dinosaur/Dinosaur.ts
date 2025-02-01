@@ -146,10 +146,17 @@ export class Dinosaur implements Entity {
   draw (ctx: CanvasRenderingContext2D) {
     const sprite = this.display.getSprite(this.status);
 
-    ctx.fillStyle = 'rgba(0,0,0,.1)';
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-
-    ctx.drawImage(sprite.image, sprite.x, sprite.y, sprite.width, sprite.height, this.x, this.y, this.width, this.height)
+    ctx.drawImage(
+      sprite.image, 
+      sprite.x, 
+      sprite.y, 
+      sprite.width, 
+      sprite.height, 
+      this.x, 
+      this.y, 
+      this.width, 
+      this.height
+    )
   }
 }
 

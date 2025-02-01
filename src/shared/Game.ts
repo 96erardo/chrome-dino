@@ -5,6 +5,7 @@ import { Cactus } from '../modules/obstacles/Cactus';
 import { Bird } from '../modules/obstacles/Bird';
 import { Floor } from './objects/Floor';
 import { Cloud } from './objects/Cloud';
+import { MediaPlayer } from './MediaPlayer';
 import { font } from './assets';
 
 export class Game {
@@ -23,12 +24,17 @@ export class Game {
       Bird.load(),
       Floor.load(),
       Cloud.load(),
+      MediaPlayer.load(),
     ])
 
     document.fonts.add(await font.load());
   }
 
   update (dt: number, keys: Set<string>) {
+    if (this.state.status === GameStatus.Stopped) {
+      return;
+    }
+  
     const speed = this.state.speed.update(dt, this.state, keys);
     const obstacles = this.state.obstacles.update(dt, this.state, keys);
     const dinosaur = this.state.dinosaur.update(dt, this.state, keys);

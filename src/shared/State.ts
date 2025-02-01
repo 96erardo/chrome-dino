@@ -4,7 +4,7 @@ import { Speed } from './objects/Speed';
 import { Score } from './objects/Score';
 import { Floor } from './objects/Floor';
 import { Cloud } from './objects/Cloud';
-import { CANVAS_WIDTH } from './constants';
+import { CANVAS_WIDTH, GAME_FLOOR } from './constants';
 
 export class State {
   speed: Speed;
@@ -35,8 +35,8 @@ export class State {
 
   static initialState (): State {
     return new State(
-      GameStatus.Running,
-      new Dinosaur(0, 0),
+      GameStatus.Stopped,
+      new Dinosaur(GAME_FLOOR - Dinosaur.STANDING_HEIGHT, 0),
       new Spawner([]),
       new Speed(),
       new Score(),
@@ -52,5 +52,6 @@ export class State {
 
 export enum GameStatus {
   Running = "Running",
+  Stopped = "Stopped",
   Ended = "Ended",
 }

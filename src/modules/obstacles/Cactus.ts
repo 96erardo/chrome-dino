@@ -70,11 +70,19 @@ export class Cactus implements Obstacle {
   }
 
   draw (ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = 'rgba(0,255,0,.1)';
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-
     const sprite = this.display.getSprite(this.type);
-    ctx.drawImage(sprite.image, sprite.x, sprite.y, sprite.width, sprite.height, this.x, this.y, this.width, this.height)
+
+    ctx.drawImage(
+      sprite.image, 
+      sprite.x, 
+      sprite.y, 
+      sprite.width, 
+      sprite.height, 
+      this.x, 
+      this.y, 
+      this.width, 
+      this.height
+    )
   }
 }
 

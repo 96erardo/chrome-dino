@@ -64,10 +64,7 @@ export class Bird implements Obstacle {
   }
 
   draw (ctx: CanvasRenderingContext2D) {
-    const sprite = this.display.getSprite('original');
-
-    ctx.fillStyle = 'rgba(0,0,0,.1)';
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    const sprite = this.display.getSprite('original'); 
     
     ctx.drawImage(
       sprite.image, 

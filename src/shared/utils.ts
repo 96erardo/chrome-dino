@@ -27,3 +27,13 @@ export async function loadImage (url: string): Promise<HTMLImageElement> {
     }, { once: true })
   })
 }
+
+export async function loadAudio (url: string): Promise<HTMLMediaElement> {
+  return new Promise((resolve) => {
+    const audio = elt<HTMLMediaElement>('audio', { src: url });
+
+    audio.addEventListener('canplaythrough', () => {
+      resolve(audio);
+    }, { once: true });
+  })
+}
